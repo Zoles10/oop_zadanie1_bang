@@ -11,8 +11,8 @@ public class Vedľa extends BrownCard{
 
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        System.out.println("you cannot play Vedla");
+        System.out.println("You cannot play Vedľa!");
     }
 }

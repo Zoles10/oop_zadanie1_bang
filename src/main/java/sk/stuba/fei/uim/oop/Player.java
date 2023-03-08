@@ -61,7 +61,7 @@ public class Player {
     }
 
     public void addToPassiveEffects(Card card) {
-        this.deck.add(card);
+        this.passiveEffects.add(card);
     }
 
     public List<Card> getPassiveEffects(){
@@ -70,38 +70,37 @@ public class Player {
 
 
     public void status() {
-        System.out.println("\nPlayer name: " + this.name);
-        System.out.println("Hp: " + this.hp);
-        System.out.println("Cards on hand: ");
+        System.out.println("\n|" + this.name + "|"+this.getHp()+" HP |");
+        System.out.println("Hand: ");
         for (int i = 0; i < deck.size(); i++) {
-            System.out.print((i + 1) + ". " + deck.get(i).name + " ");
+            System.out.println((i + 1) + ". " + deck.get(i).name + " ");
         }
 
+        System.out.println("Table: ");
         if (this.passiveEffects.size() > 0) {
-            System.out.println("Blue cards in front of player: ");
             for (int i = 0; i < passiveEffects.size(); i++) {
-                System.out.print((i + 1) + ". " + passiveEffects.get(i).name + " ");
+                System.out.println((i + 1) + ". " + passiveEffects.get(i).name + " ");
             }
             System.out.println("\n");
         } else {
-            System.out.println("\nPlayer has no cards in front\n");
+            System.out.println("Player has no cards in front\n");
         }
     }
 
     public void printHand(){
-        System.out.println("Cards on hand: ");
+        System.out.println("Hand: ");
         for (int i = 0; i < deck.size(); i++) {
-            System.out.print((i + 1) + ". " + deck.get(i).name + " ");
+            System.out.println((i + 1) + ". " + deck.get(i).name + " ");
         }
 
         if (this.passiveEffects.size() > 0) {
-            System.out.println("Blue cards in front of player: ");
+            System.out.println("Table: ");
             for (int i = 0; i < passiveEffects.size(); i++) {
                 System.out.print((i + 1) + ". " + passiveEffects.get(i).name + " ");
             }
             System.out.println("\n");
         } else {
-            System.out.println("\nPlayer has no cards in front\n");
+            System.out.println("Player has no cards in front\n");
         }
     }
 

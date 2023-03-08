@@ -12,7 +12,7 @@ public class CatBalou extends BrownCard{
     }
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
         Scanner scanner = new Scanner(System.in);
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         System.out.print("Choose a player to discard his cards, avaible players: ");
@@ -65,7 +65,9 @@ public class CatBalou extends BrownCard{
             System.out.printf("Not a valid choice");
         }
 
+        discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
 
+        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
 
     }
 }

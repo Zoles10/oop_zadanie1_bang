@@ -64,9 +64,12 @@ public class Game {
 
 
                 //TODO check cards on table, if any, "play" them
+                //if barrel, do nothing
+                //if vazenie, check if you escape, if not skip turn
+                //if dynamite check if you die, if not pass counter-clockwise to another player
 
-                //TODO add ability to play multiple cards
 
+                //TODO when playing BLUE cards, check if player has that one on table already
 
                 //draw 2 cards at the start of the round
                 drawCards(2,currentPlayer);
@@ -77,18 +80,19 @@ public class Game {
 
                 //while player has cards, he can play cards, or stop by entering 0
                 while(currentPlayer.getDeck().size() > 0){
-                    System.out.printf("Pick card to play, 0 to stop: ");
+
                     currentPlayer.printHand();
-                    int card = scanner.nextInt() - 1;
+                    System.out.printf("Pick card: ");
+                    int cardPlayedIndex = scanner.nextInt() - 1;
                     scanner.nextLine();
 
-                    if (card != -1) {
+                    if (cardPlayedIndex != -1) {
                         //if a card is chosen, play it and remove from hand
-                        currentPlayer.getCardFromDeck(card).useEffect(playerList, currentPlayerIndex, cardStack, discardStack);
+                        currentPlayer.getCardFromDeck(cardPlayedIndex).useEffect(playerList, currentPlayerIndex,cardPlayedIndex, cardStack, discardStack);
 
-                        discardStack.add(currentPlayer.getCardFromDeck(card));
 
-                        currentPlayer.removeCardFromDeck(card);
+                        //TODO move these into the cards themselves
+
                     }
                     else{
                         break;
@@ -195,4 +199,6 @@ public class Game {
         discardStack.addAll(temp);
         Collections.shuffle(cardStack);
     }
+
+
 }

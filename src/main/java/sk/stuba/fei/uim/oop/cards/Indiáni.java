@@ -11,7 +11,7 @@ public class Indiáni extends BrownCard{
 
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
 
         for(int enemyPlayerIndex = 0; enemyPlayerIndex < players.size(); enemyPlayerIndex++){
@@ -25,5 +25,8 @@ public class Indiáni extends BrownCard{
             }
 
         }
+        discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
+
+        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
     }
 }

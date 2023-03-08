@@ -11,10 +11,10 @@ public class Bang extends BrownCard {
         super("Bang");
     }
 
+    @Override
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
 
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, List<Card> gameDeck, List<Card> discardPile){
-
-        //TODO add check if enemy player has BARREL
+        //TODO add check if enemy player has BARREL on TABLE
 
         Scanner scanner = new Scanner(System.in);
         Player currentPlayer = players.get(indexOfCurrentPlayer);
@@ -34,10 +34,18 @@ public class Bang extends BrownCard {
         if(attackedPlayer.hasVedla()){
             discardPile.add(new Vedľa());
             attackedPlayer.removeVedlaFromDeck();
+            System.out.println("The player used Vedľa!");
         }
         else {
             attackedPlayer.setHp(attackedPlayer.getHp() - 1);
+            System.out.println("The player lost an HP, he now has "+attackedPlayer.getHp());
         }
+
+        discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
+
+        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
+
+
 
     }
 }

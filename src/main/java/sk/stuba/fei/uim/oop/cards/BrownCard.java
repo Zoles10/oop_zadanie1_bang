@@ -4,4 +4,5 @@ public class BrownCard extends Card {
     BrownCard(String meno){
         super(meno);
     }
+
 }

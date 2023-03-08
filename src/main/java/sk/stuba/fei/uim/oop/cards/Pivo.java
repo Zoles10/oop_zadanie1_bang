@@ -11,9 +11,13 @@ public class Pivo extends BrownCard{
 
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         currentPlayer.setHp(currentPlayer.getHp()+1);
         System.out.println("played pivo");
+
+        discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
+
+        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
     }
 }

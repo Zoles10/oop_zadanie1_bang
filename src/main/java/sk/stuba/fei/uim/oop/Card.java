@@ -14,8 +14,8 @@ abstract public class Card {
         this.name = name;
     }
 
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, List<Card> gameDeck, List<Card> discardPile){
-        Player currentPlayer = players.get(indexOfCurrentPlayer);
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
+
     }
 
 
