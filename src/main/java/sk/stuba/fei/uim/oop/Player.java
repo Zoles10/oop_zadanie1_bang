@@ -64,10 +64,31 @@ public class Player {
         this.deck.add(card);
     }
 
+    public List<Card> getPassiveEffects(){
+        return this.passiveEffects;
+    }
+
 
     public void status() {
         System.out.println("\nPlayer name: " + this.name);
         System.out.println("Hp: " + this.hp);
+        System.out.println("Cards on hand: ");
+        for (int i = 0; i < deck.size(); i++) {
+            System.out.print((i + 1) + ". " + deck.get(i).name + " ");
+        }
+
+        if (this.passiveEffects.size() > 0) {
+            System.out.println("Blue cards in front of player: ");
+            for (int i = 0; i < passiveEffects.size(); i++) {
+                System.out.print((i + 1) + ". " + passiveEffects.get(i).name + " ");
+            }
+            System.out.println("\n");
+        } else {
+            System.out.println("\nPlayer has no cards in front\n");
+        }
+    }
+
+    public void printHand(){
         System.out.println("Cards on hand: ");
         for (int i = 0; i < deck.size(); i++) {
             System.out.print((i + 1) + ". " + deck.get(i).name + " ");

@@ -63,31 +63,38 @@ public class Game {
 
 
 
-                //check cards on table, if any, "play" them
-
-                //after they are played, play any number of cards, then move those cards to discard pile
+                //TODO check cards on table, if any, "play" them
 
                 //TODO add ability to play multiple cards
 
 
                 //draw 2 cards at the start of the round
                 drawCards(2,currentPlayer);
-
+                System.out.println("PLAYER TURN: "+currentPlayer.getName());
                 currentPlayer.status();
 
-                System.out.printf("Pick card to play (number), if you dont want o play any, press 0: ");
 
-                int card = scanner.nextInt() - 1;
-                scanner.nextLine();
 
-                if(card != -1){
-                    //if a card is chosen, play it and remove from hand
-                    currentPlayer.getCardFromDeck(card).useEffect(playerList, currentPlayerIndex, cardStack, discardStack );
+                //while player has cards, he can play cards, or stop by entering 0
+                while(currentPlayer.getDeck().size() > 0){
+                    System.out.printf("Pick card to play, 0 to stop: ");
+                    currentPlayer.printHand();
+                    int card = scanner.nextInt() - 1;
+                    scanner.nextLine();
 
-                    discardStack.add(currentPlayer.getCardFromDeck(card));
+                    if (card != -1) {
+                        //if a card is chosen, play it and remove from hand
+                        currentPlayer.getCardFromDeck(card).useEffect(playerList, currentPlayerIndex, cardStack, discardStack);
 
-                    currentPlayer.removeCardFromDeck(card);
+                        discardStack.add(currentPlayer.getCardFromDeck(card));
+
+                        currentPlayer.removeCardFromDeck(card);
+                    }
+                    else{
+                        break;
+                    }
                 }
+
                 int indexOfDiscardCard = 0;
 
                 //player must have max card equal tu Hp at the end of turn
@@ -96,6 +103,7 @@ public class Game {
                 while(currentPlayer.getDeck().size() > currentPlayer.getHp()){
                     System.out.print("Pick which card to dicard: ");
                     indexOfDiscardCard = scanner.nextInt() - 1;
+                    scanner.nextLine();
                     currentPlayer.removeCardFromDeck(indexOfDiscardCard);
                     discardStack.add(currentPlayer.getCardFromDeck(indexOfDiscardCard));
 
