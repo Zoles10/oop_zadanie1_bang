@@ -4,9 +4,9 @@ import sk.stuba.fei.uim.oop.Player;
 
 import java.util.List;
 
-public class Barrel extends Card{
+public class Barrel extends BlueCard{
     public Barrel(){
-        super("Blue","Barrel");
+        super("Barrel");
     }
 
 

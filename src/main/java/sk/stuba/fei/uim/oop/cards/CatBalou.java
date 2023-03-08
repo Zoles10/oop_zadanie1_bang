@@ -4,9 +4,9 @@ import sk.stuba.fei.uim.oop.Player;
 
 import java.util.List;
 
-public class CatBalou extends Card{
+public class CatBalou extends BrownCard{
     public CatBalou() {
-        super("Brown", "CatBalou");
+        super( "CatBalou");
     }
 
     @Override

@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 import java.util.List;
 
-public class Bang extends Card {
+public class Bang extends BrownCard {
     public Bang(){
-        super("Brown","Bang");
+        super("Bang");
     }
 
 

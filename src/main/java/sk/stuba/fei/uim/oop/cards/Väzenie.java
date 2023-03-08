@@ -4,9 +4,9 @@ import sk.stuba.fei.uim.oop.Player;
 
 import java.util.List;
 
-public class Väzenie extends Card{
+public class Väzenie extends BlueCard{
     public Väzenie(){
-        super("Blue","Väzenie");
+        super("Väzenie");
     }
 
 

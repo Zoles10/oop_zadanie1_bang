@@ -61,7 +61,7 @@ public class Game {
                     break;
                 }
 
-                currentPlayer.status();
+
 
                 //check cards on table, if any, "play" them
 
@@ -72,6 +72,8 @@ public class Game {
 
                 //draw 2 cards at the start of the round
                 drawCards(2,currentPlayer);
+
+                currentPlayer.status();
 
                 System.out.printf("Pick card to play (number), if you dont want o play any, press 0: ");
 
@@ -85,9 +87,21 @@ public class Game {
                     discardStack.add(currentPlayer.getCardFromDeck(card));
 
                     currentPlayer.removeCardFromDeck(card);
+                }
+                int indexOfDiscardCard = 0;
 
+                //player must have max card equal tu Hp at the end of turn
+                currentPlayer.status();
+
+                while(currentPlayer.getDeck().size() > currentPlayer.getHp()){
+                    System.out.print("Pick which card to dicard: ");
+                    indexOfDiscardCard = scanner.nextInt() - 1;
+                    currentPlayer.removeCardFromDeck(indexOfDiscardCard);
+                    discardStack.add(currentPlayer.getCardFromDeck(indexOfDiscardCard));
 
                 }
+
+
             }
 
         }
@@ -171,5 +185,6 @@ public class Game {
         cardStack.addAll(discardStack);
         discardStack.clear();
         discardStack.addAll(temp);
+        Collections.shuffle(cardStack);
     }
 }

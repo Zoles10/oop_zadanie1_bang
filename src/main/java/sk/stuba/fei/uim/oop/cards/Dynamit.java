@@ -4,9 +4,9 @@ import sk.stuba.fei.uim.oop.Player;
 
 import java.util.List;
 
-public class Dynamit extends Card {
+public class Dynamit extends BlueCard {
     public Dynamit() {
-        super("Blue", "Dynamit");
+        super( "Dynamit");
     }
 
 
