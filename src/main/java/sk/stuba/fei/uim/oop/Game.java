@@ -74,7 +74,7 @@ public class Game {
             cardStack.add(new Bang());
         }
         for (int i = 0; i < 15; i++) {
-            cardStack.add(new Bang());
+            cardStack.add(new Missed());
         }
         for (int i = 0; i < 8; i++) {
             cardStack.add(new Beer());
