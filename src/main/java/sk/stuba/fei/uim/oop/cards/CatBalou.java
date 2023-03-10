@@ -1,7 +1,8 @@
 package sk.stuba.fei.uim.oop.cards;
 import sk.stuba.fei.uim.oop.Card;
 import sk.stuba.fei.uim.oop.Player;
-import java.util.Scanner;
+import sk.stuba.fei.uim.oop.utility.KeyboardInput;
+
 import java.util.Random;
 
 import java.util.List;
@@ -13,7 +14,6 @@ public class CatBalou extends BrownCard{
 
     @Override
     public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
-        Scanner scanner = new Scanner(System.in);
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         System.out.print("Choose a player to discard his cards, avaible players: ");
 
@@ -25,17 +25,12 @@ public class CatBalou extends BrownCard{
             }
 
         }
-        System.out.print("Pick a player: ");
-        int attackedPlayerIndex = scanner.nextInt() - 1;
+        int attackedPlayerIndex = KeyboardInput.readInt("Pick a player") - 1;
 
         Player attackedPlayer = players.get(attackedPlayerIndex);
 
-        System.out.println("Choose where to discard from:\n1.Discard from hand\n2. Discard from table\n");
-
-        int discardFlag = scanner.nextInt();
-        scanner.nextLine();
+        int discardFlag = KeyboardInput.readInt("Choose where to discard from:\n1.Discard from hand\n2. Discard from table\n");
         int randomIndex;
-
         Random rand = new Random();
 
 

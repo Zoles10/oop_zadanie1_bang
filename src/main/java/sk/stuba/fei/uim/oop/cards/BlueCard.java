@@ -9,5 +9,5 @@ public abstract class BlueCard extends Card {
         super(meno);
     }
 
-    public abstract boolean didExucute();
+    public abstract boolean didExecute();
 }

@@ -18,9 +18,11 @@ public class Indiáni extends BrownCard{
             if(enemyPlayerIndex != indexOfCurrentPlayer) {
                 if(players.get(enemyPlayerIndex).hasBang()){
                     players.get(enemyPlayerIndex).removeBangFromDeck();
+                    System.out.println("T\u001B[33mhe enemy player "+players.get(enemyPlayerIndex).getName()+" blocked the attack and used Bang!");
                 }
                 else{
                     players.get(enemyPlayerIndex).setHp( players.get(enemyPlayerIndex).getHp() - 1);
+                    System.out.println("\u001B[31m The enemy player "+players.get(enemyPlayerIndex).getName()+" didnt have Bang and lost and HP, now he has\u001B[32m "+players.get(enemyPlayerIndex).getHp()+" HP!\u001B[0m");
                 }
             }
 

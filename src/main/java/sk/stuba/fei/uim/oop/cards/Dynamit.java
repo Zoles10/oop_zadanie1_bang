@@ -22,7 +22,7 @@ public class Dynamit extends BlueCard {
     }
 
     @Override
-    public boolean didExucute(){
+    public boolean didExecute(){
         int chance = rand.nextInt(8);
         if(chance==0){
             return true;
