@@ -13,13 +13,12 @@ public class Game {
     int playerCount;
     List<Player> playerList;
     List<Card> cardStack;
-    List<Card> discardStack;
+    List<Card> discardPile;
 
     Game() {
-        Random random = new Random();
         this.gameInProgress = true;
         this.playerList = new ArrayList<>();
-        this.discardStack = new ArrayList<>();
+        this.discardPile = new ArrayList<>();
         this.cardStack = new ArrayList<>(66);
         playGame();
     }
@@ -52,7 +51,7 @@ public class Game {
 
                 System.out.println("\u001B[36m--------------PLAYER TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
 
-                currentPlayer.checkTable(currentPlayerIndex, playerList, discardStack);
+                currentPlayer.checkTable(currentPlayerIndex, playerList, discardPile);
 
 
 
@@ -66,13 +65,9 @@ public class Game {
 
                 currentPlayer.status();
 
-                //while player has cards, he can play cards, or stop by entering 0
-                playCards(currentPlayer,currentPlayerIndex);
+                currentPlayer.playCards(playerList,currentPlayerIndex,cardStack,discardPile);
 
-                //player must have max card equal tu Hp at the end of turn
-
-
-                discardCards(currentPlayer);
+                currentPlayer.discardCards(discardPile);
 
                 currentPlayer.status();
 
@@ -125,52 +120,22 @@ public class Game {
     }
 
     public void removePlayer(Player currentPlayer, int currentPlayerIndex){
-        for(int cardIndex = 0; cardIndex < currentPlayer.getDeck().size(); cardIndex++){
-            this.discardStack.add(currentPlayer.getCardFromDeck(cardIndex));
-            currentPlayer.removeCardFromDeck(cardIndex);
+        for(int cardIndex = 0; cardIndex < currentPlayer.getHand().size(); cardIndex++){
+            this.discardPile.add(currentPlayer.getCardFromHand(cardIndex));
+            currentPlayer.removeCardFromHand(cardIndex);
         }
         playerList.remove(currentPlayerIndex);
     }
 
     public void  drawCards(int numberOfCards, Player player){
-        int randomStackIndex;
         for (int i = 0; i < numberOfCards; i++) {
 
             if(cardStack.size()<1){
+                System.out.print("The cards are being shuffled from the discard pile");
                 refillDeck();
             }
-            player.addToDeck(cardStack.get(cardStack.size()-1));
+            player.addToHand(cardStack.get(cardStack.size()-1));
             cardStack.remove(cardStack.size()-1);
-        }
-    }
-
-    public void playCards(Player currentPlayer, int currentPlayerIndex){
-        while(currentPlayer.getDeck().size() > 0){
-
-
-            int cardPlayedIndex = KeyboardInput.readInt("Pick which card to play") - 1;
-
-            if (cardPlayedIndex != -1) {
-                //if a card is chosen, play it and remove from hand
-                currentPlayer.getCardFromDeck(cardPlayedIndex).useEffect(playerList, currentPlayerIndex, cardPlayedIndex, cardStack, discardStack);
-            }
-            else{
-                break;
-            }
-            currentPlayer.status();
-        }
-    }
-
-    public void discardCards(Player currentPlayer){
-
-        int indexOfDiscardCard = 0;
-        while(currentPlayer.getDeck().size() > currentPlayer.getHp()){
-
-            currentPlayer.printHand();
-            indexOfDiscardCard = KeyboardInput.readInt("Pick which card to dicard") - 1;
-            discardStack.add(currentPlayer.getCardFromDeck(indexOfDiscardCard));
-            currentPlayer.removeCardFromDeck(indexOfDiscardCard);
-
         }
     }
 
@@ -178,9 +143,9 @@ public class Game {
     public void refillDeck(){
         List<Card> temp = new ArrayList<>(cardStack);
         cardStack.clear();
-        cardStack.addAll(discardStack);
-        discardStack.clear();
-        discardStack.addAll(temp);
+        cardStack.addAll(discardPile);
+        discardPile.clear();
+        discardPile.addAll(temp);
         Collections.shuffle(cardStack);
     }
 

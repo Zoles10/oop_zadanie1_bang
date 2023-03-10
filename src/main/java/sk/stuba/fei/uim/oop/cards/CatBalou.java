@@ -19,49 +19,39 @@ public class CatBalou extends BrownCard{
 
         //TODO add check to see if player has cards
 
-        for(int playerIndex = 0; playerIndex < players.size(); playerIndex++){
-            if(playerIndex != indexOfCurrentPlayer) {
-                System.out.print((playerIndex + 1)+". " + players.get(playerIndex).getName()+"\n");
-            }
-
-        }
-        int attackedPlayerIndex = KeyboardInput.readInt("Pick a player") - 1;
-
-        Player attackedPlayer = players.get(attackedPlayerIndex);
+        Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
 
         int discardFlag = KeyboardInput.readInt("Choose where to discard from:\n1.Discard from hand\n2. Discard from table\n");
         int randomIndex;
         Random rand = new Random();
 
-
         if(discardFlag==1){
-            if(attackedPlayer.getDeck().size() > 0 ) {
-                randomIndex = rand.nextInt(attackedPlayer.getDeck().size());
-                discardPile.add(attackedPlayer.getCardFromDeck(randomIndex));
-                attackedPlayer.removeCardFromDeck(randomIndex);
-                discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
-                currentPlayer.removeCardFromDeck(indexOfPlayedCard);
+            if(attackedPlayer.getHand().size() > 0 ) {
+                randomIndex = rand.nextInt(attackedPlayer.getHand().size());
+                discardPile.add(attackedPlayer.getCardFromHand(randomIndex));
+                attackedPlayer.removeCardFromHand(randomIndex);
+                discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
+                currentPlayer.removeCardFromHand(indexOfPlayedCard);
             }
             else{
                 System.out.println("Player has no card in hand");
             }
-
         }
 
         else if(discardFlag == 2){
-            if(attackedPlayer.getPassiveEffects().size()>0) {
-                randomIndex = rand.nextInt(attackedPlayer.getPassiveEffects().size());
-                discardPile.add(attackedPlayer.getCardFromPassiveEffects(randomIndex));
-                attackedPlayer.removeCardFromPassiveEffects(randomIndex);
-                discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
-                currentPlayer.removeCardFromDeck(indexOfPlayedCard);
+            if(attackedPlayer.getTable().size()>0) {
+                randomIndex = rand.nextInt(attackedPlayer.getTable().size());
+                discardPile.add(attackedPlayer.getCardFromTable(randomIndex));
+                attackedPlayer.removeCardFromTable(randomIndex);
+                discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
+                currentPlayer.removeCardFromHand(indexOfPlayedCard);
             }
             else{
                 System.out.println("Player has no card on table");
             }
         }
         else{
-            System.out.printf("Not a valid choice");
+            System.out.print("Not a valid choice");
         }
 
 

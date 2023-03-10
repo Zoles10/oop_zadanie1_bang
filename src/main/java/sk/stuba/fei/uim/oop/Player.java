@@ -1,29 +1,24 @@
 package sk.stuba.fei.uim.oop;
 import sk.stuba.fei.uim.oop.cards.*;
-
+import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
     private String name;
     private int hp;
-    private List<Card> deck;
-
-    private List<Card> passiveEffects;
-
+    private List<Card> hand;
+    private List<Card> table;
     private boolean isInPrison;
 
     Player(String name) {
         this.name = name;
         isInPrison = false;
         hp = 4;
-        deck = new ArrayList<>();
-        passiveEffects = new ArrayList<>();
+        hand = new ArrayList<>();
+        table = new ArrayList<>();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
     public String getName() {
         return this.name;
     }
@@ -33,36 +28,36 @@ public class Player {
     public void setHp(int hp) {
         this.hp = hp;
     }
+
+    public List<Card> getHand() {
+        return this.hand;
+    }
+    public Card getCardFromHand(int i) {
+        return this.hand.get(i);
+    }
+    public void removeCardFromHand(int i) {
+        this.hand.remove(i);
+    }
+    public void addToHand(Card card) {
+        this.hand.add(card);
+    }
+    public Card getCardFromTable(int i) {
+        return this.table.get(i);
+    }
+    public void removeCardFromTable(int i) {
+        this.table.remove(i);
+    }
+    public void addToTable(Card card) {
+        this.table.add(card);
+    }
+    public List<Card> getTable(){
+        return this.table;
+    }
     public void setIsInPrison(boolean value){
         this.isInPrison = value;
     }
     public boolean getIsInPrison(){
         return this.isInPrison;
-    }
-
-    public List<Card> getDeck() {
-        return this.deck;
-    }
-    public Card getCardFromDeck(int i) {
-        return this.deck.get(i);
-    }
-    public void removeCardFromDeck(int i) {
-        this.deck.remove(i);
-    }
-    public void addToDeck(Card card) {
-        this.deck.add(card);
-    }
-    public Card getCardFromPassiveEffects(int i) {
-        return this.passiveEffects.get(i);
-    }
-    public void removeCardFromPassiveEffects(int i) {
-        this.passiveEffects.remove(i);
-    }
-    public void addToPassiveEffects(Card card) {
-        this.passiveEffects.add(card);
-    }
-    public List<Card> getPassiveEffects(){
-        return this.passiveEffects;
     }
 
     public void status() {
@@ -77,24 +72,23 @@ public class Player {
 
     public void printHand(){
         System.out.println("\u001B[35mHand: ");
-        if(this.deck.size()>0) {
-            for (int i = 0; i < deck.size(); i++) {
-                System.out.println((i + 1) + ". " + deck.get(i).name + " ");
+        if(this.hand.size()>0) {
+            for (int i = 0; i < hand.size(); i++) {
+                System.out.println((i + 1) + ". " + hand.get(i).name + " ");
             }
             System.out.println("\n\u001B[0m");
         }
         else{
             System.out.println("---Empty---\n\u001B[0m");
         }
-
     }
 
     public void printTable(){
         System.out.println("\u001B[34mTable: ");
-        if (this.passiveEffects.size() > 0) {
+        if (this.table.size() > 0) {
 
-            for (int i = 0; i < passiveEffects.size(); i++) {
-                System.out.print((i + 1) + ". " + passiveEffects.get(i).name + " ");
+            for (int i = 0; i < table.size(); i++) {
+                System.out.print((i + 1) + ". " + table.get(i).name + " ");
             }
             System.out.println("\n\u001B[0m");
         } else {
@@ -102,120 +96,75 @@ public class Player {
         }
     }
 
+    private boolean hasCardOfType(List<Card> cards,Class<? extends Card> type) {
+        for (Card card : cards) {
+            if (type.isInstance(card)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public boolean hasVedla() {
-        for (Card card : deck) {
-            if (card instanceof Missed) {
-                return true;
-            }
-        }
-        return false;
+    public boolean hasMissedOnHand() {
+        return hasCardOfType(this.hand,Missed.class);
     }
-    public void removeVedlaFromDeck() {
-        for (Card card : deck) {
-            if (card instanceof Missed) {
-                deck.remove(card);
-                break;
-            }
-        }
-    }
-    public boolean hasBang() {
-        for (Card card : deck) {
-            if (card instanceof Bang) {
-                return true;
-            }
-        }
-        return false;
+
+    public boolean hasBangOnHand() {
+        return hasCardOfType(this.hand,Missed.class);
     }
 
     public boolean hasPrisonOnTable() {
-        for (Card card : passiveEffects) {
-            if (card instanceof Prison) {
-                return true;
-            }
-        }
-        return false;
+        return hasCardOfType(this.table,Prison.class);
     }
 
     public boolean hasDynamiteOnTable() {
-        for (Card card : passiveEffects) {
-            if (card instanceof Prison) {
-                return true;
-            }
-        }
-        return false;
+        return hasCardOfType(this.table,Dynamite.class);
     }
 
     public boolean hasBarrelOnTable() {
-        for (Card card : passiveEffects) {
-            if (card instanceof Barrel) {
-                return true;
-            }
-        }
-        return false;
+        return hasCardOfType(this.table,Prison.class);
     }
-    public void removeBarrel(List<Card> discardPile) {
-        for (Card card : passiveEffects) {
-            if (card instanceof Barrel) {
-                passiveEffects.remove(card);
+
+    private void removeCardOfType(List<Card> cards,Class<? extends Card> type, List<Card> discardPile) {
+        for (Card card : cards) {
+            if (type.isInstance(card)) {
+                cards.remove(card);
                 discardPile.add(card);
                 break;
             }
         }
     }
-    public void removeDynamite(List<Card> discardPile) {
-        for (Card card : passiveEffects) {
-            if (card instanceof Dynamite) {
-                passiveEffects.remove(card);
-                discardPile.add(card);
-                break;
-            }
-        }
+    public void removeMissedFromHand(List<Card> discardPile) {
+        removeCardOfType(hand, Missed.class, discardPile);
     }
-    public void removePrison(List<Card> discardPile) {
-        for (Card card : passiveEffects) {
-            if (card instanceof Prison) {
-                passiveEffects.remove(card);
-                discardPile.add(card);
-                break;
-            }
-        }
+    public void removeBarrelFromTable(List<Card> discardPile) {
+        removeCardOfType(table, Barrel.class, discardPile);
     }
-    public void removeBangFromDeck() {
-        for (Card card : deck) {
-            if (card instanceof Bang) {
-                deck.remove(card);
-                break;
-            }
-        }
+    public void removeDynamiteFromTable(List<Card> discardPile) {
+        removeCardOfType(table, Dynamite.class, discardPile);
+    }
+    public void removePrisonFromTable(List<Card> discardPile) {
+        removeCardOfType(table, Prison.class, discardPile);
+    }
+    public void removeBangFromHand(List<Card> discardPile) {
+        removeCardOfType(hand, Bang.class, discardPile);
     }
 
-
-    //TODO when playing BLUE cards, check if player has that one on table already
-
-    //TODO fix DYNAMITE, crash
-
-    //TODO fix PRISON, player has turns until he escapes
     public void checkTable(int currentPlayerIndex, List<Player> playerList, List<Card> discardPile){
-        Boolean removePrisonFlag = false;
-
-        for (Card blueCard : this.getPassiveEffects()) {
-
+        boolean removePrisonFlag = false;
+        for (Card blueCard : this.getTable()) {
             if (blueCard instanceof Dynamite) {
                 if(((Dynamite) blueCard).didExecute()){
                     this.setHp(this.getHp() - 3);
                     System.out.println("\u001B[32mDynamite exploded!\u001B[0m");
                 }
-
                 else{
                     int indexOfNextPlayer = currentPlayerIndex == 0 ? playerList.size()-1 : currentPlayerIndex-1;
                     System.out.println("Dynamite didnt explode and passed to another player");
-                    playerList.get(indexOfNextPlayer).addToPassiveEffects(new Dynamite());
+                    playerList.get(indexOfNextPlayer).addToTable(new Dynamite());
                 }
             }
-
             else if(blueCard instanceof Prison){
-
                 if(((Prison) blueCard).didExecute()){
                     System.out.println("You escape prison!");
                     removePrisonFlag = true;
@@ -223,19 +172,44 @@ public class Player {
                     this.setIsInPrison(false);
                 }
                 else {
-
                     this.setIsInPrison(true);
                     status();
                     System.out.println("You didnt escape prison and skip a turn");
                 }
             }
         }
-
         if(removePrisonFlag){
-            this.removePrison(discardPile);
+            this.removePrisonFromTable(discardPile);
         }
+        this.removeDynamiteFromTable(discardPile);
+    }
 
-        this.removeDynamite(discardPile);
+    public void playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
+        while(getHand().size() > 0){
+
+
+            int cardPlayedIndex = KeyboardInput.readInt("Pick which card to play") - 1;
+
+            if (cardPlayedIndex != -1) {
+                //if a card is chosen, play it and remove from hand
+                getCardFromHand(cardPlayedIndex).useEffect(playerList, currentPlayerIndex, cardPlayedIndex, cardStack, discardPile);
+            }
+            else{
+                break;
+            }
+            status();
+        }
+    }
+
+    public void discardCards(List<Card> discardPile){
+
+        int indexOfDiscardCard;
+        while(this.hand.size() > this.hp){
+            printHand();
+            indexOfDiscardCard = KeyboardInput.readInt("Pick which card to dicard") - 1;
+            discardPile.add(getCardFromHand(indexOfDiscardCard));
+            removeCardFromHand(indexOfDiscardCard);
+        }
     }
 
     public boolean isDead(){

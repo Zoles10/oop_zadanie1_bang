@@ -1,5 +1,7 @@
 package sk.stuba.fei.uim.oop;
 
+import sk.stuba.fei.uim.oop.utility.KeyboardInput;
+
 import java.util.List;
 
 abstract public class Card {
@@ -18,5 +20,16 @@ abstract public class Card {
 
     }
 
+    public Player choosePlayerToAttack(List<Player> players, int indexOfCurrentPlayer ){
+        for(int playerIndex = 0; playerIndex < players.size(); playerIndex++){
+            if(playerIndex != indexOfCurrentPlayer) {
+                System.out.print((playerIndex + 1)+". " + players.get(playerIndex).getName()+"\n");
+            }
+
+        }
+        int attackedPlayerIndex = KeyboardInput.readInt("Pick a player") - 1;
+
+        return players.get(attackedPlayerIndex);
+    }
 
 }

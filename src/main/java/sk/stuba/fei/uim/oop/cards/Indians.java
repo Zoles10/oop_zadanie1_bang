@@ -16,8 +16,8 @@ public class Indians extends BrownCard{
 
         for(int enemyPlayerIndex = 0; enemyPlayerIndex < players.size(); enemyPlayerIndex++){
             if(enemyPlayerIndex != indexOfCurrentPlayer) {
-                if(players.get(enemyPlayerIndex).hasBang()){
-                    players.get(enemyPlayerIndex).removeBangFromDeck();
+                if(players.get(enemyPlayerIndex).hasBangOnHand()){
+                    players.get(enemyPlayerIndex).removeBangFromHand(discardPile);
                     System.out.println("\u001B[33The enemy player "+players.get(enemyPlayerIndex).getName()+" blocked the attack and used Bang!\u001B[0m");
                 }
                 else{
@@ -27,8 +27,8 @@ public class Indians extends BrownCard{
             }
 
         }
-        discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
+        discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
 
-        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
+        currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 }

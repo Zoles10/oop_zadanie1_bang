@@ -22,18 +22,15 @@ public class Barrel extends BlueCard{
         if(currentPlayer.hasBarrelOnTable()){
             System.out.println("You cannot play Barrel, you are have one on the table!");
         }
-        currentPlayer.addToPassiveEffects(currentPlayer.getCardFromDeck(indexOfPlayedCard));
-        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
+        currentPlayer.addToTable(currentPlayer.getCardFromHand(indexOfPlayedCard));
+        currentPlayer.removeCardFromHand(indexOfPlayedCard);
 
     }
 
     @Override
     public boolean didExecute(){
         int chance = rand.nextInt(4);
-        if(chance==0){
-            return true;
-        }
-        return false;
+        return chance == 0 ? true : false;
     }
 
 

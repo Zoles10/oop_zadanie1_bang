@@ -21,17 +21,14 @@ public class Dynamite extends BlueCard {
             System.out.println("You cannot place dynamite, you already have one on the table!");
         }
 
-        currentPlayer.addToPassiveEffects(currentPlayer.getCardFromDeck(indexOfPlayedCard));
-        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
+        currentPlayer.addToTable(currentPlayer.getCardFromHand(indexOfPlayedCard));
+        currentPlayer.removeCardFromHand(indexOfPlayedCard);
 
     }
 
     @Override
     public boolean didExecute(){
         int chance = rand.nextInt(8);
-        if(chance==0){
-            return true;
-        }
-        return false;
+        return chance == 0 ? true : false;
     }
 }

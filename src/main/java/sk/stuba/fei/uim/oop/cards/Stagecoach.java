@@ -14,17 +14,17 @@ public class Stagecoach extends BrownCard{
     public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
 
-        currentPlayer.addToDeck(gameDeck.get(gameDeck.size()-1));
+        currentPlayer.addToHand(gameDeck.get(gameDeck.size()-1));
         discardPile.add(gameDeck.get(gameDeck.size()-1));
         gameDeck.remove(gameDeck.size()-1);
 
-        currentPlayer.addToDeck(gameDeck.get(gameDeck.size()-1));
+        currentPlayer.addToHand(gameDeck.get(gameDeck.size()-1));
         discardPile.add(gameDeck.get(gameDeck.size()-1));
         gameDeck.remove(gameDeck.size()-1);
 
-        discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
+        discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
 
-        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
+        currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 
 }

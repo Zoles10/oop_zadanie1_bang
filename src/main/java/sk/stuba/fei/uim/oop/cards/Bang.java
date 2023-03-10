@@ -2,7 +2,6 @@ package sk.stuba.fei.uim.oop.cards;
 
 import sk.stuba.fei.uim.oop.Card;
 import sk.stuba.fei.uim.oop.Player;
-import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
 
 import java.util.List;
@@ -20,28 +19,20 @@ public class Bang extends BrownCard {
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         System.out.print("Pick which player to attack, players: ");
 
-        for(int playerIndex = 0; playerIndex < players.size(); playerIndex++){
-            if(playerIndex != indexOfCurrentPlayer) {
-                System.out.print((playerIndex + 1)+". " + players.get(playerIndex).getName()+"\n");
-            }
-
-        }
-        int attackedPlayerIndex = KeyboardInput.readInt("Pick a player") - 1;
-
-        Player attackedPlayer = players.get(attackedPlayerIndex);
+        Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
 
         if(attackedPlayer.hasBarrelOnTable()){
             Barrel barrel = new Barrel();
             if(barrel.didExecute()){
-                attackedPlayer.removeBarrel(discardPile);
-                System.out.printf("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
+                attackedPlayer.removeBarrelFromTable(discardPile);
+                System.out.print("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
                 return;
             }
         }
 
-        if(attackedPlayer.hasVedla()){
+        if(attackedPlayer.hasMissedOnHand()){
             discardPile.add(new Missed());
-            attackedPlayer.removeVedlaFromDeck();
+            attackedPlayer.removeMissedFromHand(discardPile);
             System.out.println("\u001B[33mThe player used Missed!\u001B[0m");
         }
         else {
@@ -49,9 +40,9 @@ public class Bang extends BrownCard {
             System.out.println("\u001B[31mThe player lost an HP, he now has "+attackedPlayer.getHp()+"\u001B[0m");
         }
 
-        discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
+        discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
 
-        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
+        currentPlayer.removeCardFromHand(indexOfPlayedCard);
 
 
 
