@@ -15,13 +15,13 @@ public class CatBalou extends BrownCard{
     @Override
     public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        System.out.print("Choose a player to discard his cards, avaible players: ");
+        System.out.print("Choose a player to discard his cards, avaible players: \n");
 
         //TODO add check to see if player has cards
 
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
         int discardFlag = 0;
-        while(discardFlag != 1 || discardFlag!=2){
+        while(discardFlag < 1 || discardFlag > 2 ){
             discardFlag = KeyboardInput.readInt("Choose where to discard from:\n1.Discard from hand\n2. Discard from table\n");
         }
         int randomIndex;

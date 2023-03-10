@@ -37,21 +37,24 @@ public class Game {
 
                 currentPlayer.checkTable(currentPlayerIndex, playerList, discardPile);
 
-                if(!currentPlayer.getIsInPrison()){
-                    drawCards(2,currentPlayer);
-
-                    currentPlayer.status();
-
-                    this.gameInProgress = currentPlayer.playCards(playerList,currentPlayerIndex,cardStack,discardPile);
-
-                    if(!gameInProgress){
-                        break;
-                    }
-
-                    currentPlayer.discardCards(discardPile);
-
-                    currentPlayer.status();
+                if(currentPlayer.getIsInPrison()){
+                    continue;
                 }
+
+                drawCards(2,currentPlayer);
+
+                currentPlayer.status();
+
+                this.gameInProgress = currentPlayer.playCards(playerList,currentPlayerIndex,cardStack,discardPile);
+
+                if(!gameInProgress){
+                    break;
+                }
+
+                currentPlayer.discardCards(discardPile);
+
+                currentPlayer.status();
+
             }
 
         }
@@ -59,7 +62,7 @@ public class Game {
 
     public void createDeck() {
         for (int i = 0; i < 30; i++) {
-            cardStack.add(new Bang());
+            cardStack.add(new Dynamite());
         }
         for (int i = 0; i < 15; i++) {
             cardStack.add(new Missed());

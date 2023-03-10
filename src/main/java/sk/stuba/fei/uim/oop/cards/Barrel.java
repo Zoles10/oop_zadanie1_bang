@@ -21,6 +21,7 @@ public class Barrel extends BlueCard{
 
         if(currentPlayer.hasBarrelOnTable()){
             System.out.println("You cannot play Barrel, you are have one on the table!");
+            return;
         }
         currentPlayer.addToTable(currentPlayer.getCardFromHand(indexOfPlayedCard));
         currentPlayer.removeCardFromHand(indexOfPlayedCard);

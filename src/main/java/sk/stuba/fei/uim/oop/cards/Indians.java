@@ -18,7 +18,7 @@ public class Indians extends BrownCard{
             if(enemyPlayerIndex != indexOfCurrentPlayer) {
                 if(players.get(enemyPlayerIndex).hasBangOnHand()){
                     players.get(enemyPlayerIndex).removeBangFromHand(discardPile);
-                    System.out.println("\u001B[33The enemy player "+players.get(enemyPlayerIndex).getName()+" blocked the attack and used Bang!\u001B[0m");
+                    System.out.println("\u001B[33mThe enemy player "+players.get(enemyPlayerIndex).getName()+" blocked the attack and used Bang!\u001B[0m");
                 }
                 else{
                     players.get(enemyPlayerIndex).setHp( players.get(enemyPlayerIndex).getHp() - 1);

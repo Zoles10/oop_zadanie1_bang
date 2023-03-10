@@ -122,7 +122,7 @@ public class Player {
     }
 
     public boolean hasBarrelOnTable() {
-        return hasCardOfType(this.table,Prison.class);
+        return hasCardOfType(this.table,Barrel.class);
     }
 
     private void removeCardOfType(List<Card> cards,Class<? extends Card> type, List<Card> discardPile) {
@@ -173,15 +173,17 @@ public class Player {
                 }
                 else {
                     this.setIsInPrison(true);
-                    status();
+
                     System.out.println("\u001B[31mYou didnt escape prison and skip a turn\u001B[0m");
                 }
             }
         }
         if(removePrisonFlag){
             this.removePrisonFromTable(discardPile);
+            status();
         }
         this.removeDynamiteFromTable(discardPile);
+
     }
 
     public boolean playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
