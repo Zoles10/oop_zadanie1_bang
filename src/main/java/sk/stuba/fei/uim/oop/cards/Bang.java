@@ -40,9 +40,9 @@ public class Bang extends BrownCard {
         }
 
         if(attackedPlayer.hasVedla()){
-            discardPile.add(new Vedľa());
+            discardPile.add(new Missed());
             attackedPlayer.removeVedlaFromDeck();
-            System.out.println("\u001B[33mThe player used Vedľa!\u001B[0m");
+            System.out.println("\u001B[33mThe player used Missed!\u001B[0m");
         }
         else {
             attackedPlayer.setHp(attackedPlayer.getHp() - 1);

@@ -5,10 +5,10 @@ import sk.stuba.fei.uim.oop.Player;
 import java.util.List;
 import java.util.Random;
 
-public class Dynamit extends BlueCard {
+public class Dynamite extends BlueCard {
     Random rand;
-    public Dynamit() {
-        super( "Dynamit");
+    public Dynamite() {
+        super( "Dynamite");
         rand = new Random();
     }
 
@@ -16,6 +16,11 @@ public class Dynamit extends BlueCard {
     @Override
     public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
+
+        if(currentPlayer.hasDynamiteOnTable()){
+            System.out.println("You cannot place dynamite, you already have one on the table!");
+        }
+
         currentPlayer.addToPassiveEffects(currentPlayer.getCardFromDeck(indexOfPlayedCard));
         currentPlayer.removeCardFromDeck(indexOfPlayedCard);
 

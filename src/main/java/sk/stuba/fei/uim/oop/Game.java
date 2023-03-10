@@ -3,7 +3,6 @@ import sk.stuba.fei.uim.oop.cards.*;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Collections;
@@ -55,7 +54,7 @@ public class Game {
 
                 currentPlayer.checkTable(currentPlayerIndex, playerList, discardStack);
 
-                currentPlayer.status();
+
 
                 if(currentPlayer.getIsInPrison()){
                     System.out.println("This player skips a turn because he is imprisoned");
@@ -65,14 +64,17 @@ public class Game {
                 //draw 2 cards at the start of the round
                 drawCards(2,currentPlayer);
 
+                currentPlayer.status();
+
                 //while player has cards, he can play cards, or stop by entering 0
                 playCards(currentPlayer,currentPlayerIndex);
 
                 //player must have max card equal tu Hp at the end of turn
-                currentPlayer.status();
+
 
                 discardCards(currentPlayer);
 
+                currentPlayer.status();
 
             }
 
@@ -83,35 +85,25 @@ public class Game {
         for (int i = 0; i < 30; i++) {
             cardStack.add(new Bang());
         }
-
         for (int i = 0; i < 15; i++) {
-            cardStack.add(new Vedľa());
+            cardStack.add(new Missed());
         }
-
         for (int i = 0; i < 8; i++) {
-            cardStack.add(new Pivo());
+            cardStack.add(new Beer());
         }
-
         for (int i = 0; i < 6; i++) {
             cardStack.add(new CatBalou());
         }
-
-        for (int i = 0; i < 4; i++) {
-            cardStack.add(new Dostavník());
+        for (int i = 0; i < 4; i++) { cardStack.add(new Stagecoach());
         }
-
-        cardStack.add(new Indiáni());
-        cardStack.add(new Indiáni());
-
+        cardStack.add(new Prison());
+        cardStack.add(new Prison());
+        cardStack.add(new Prison());
+        cardStack.add(new Indians());
+        cardStack.add(new Indians());
         cardStack.add(new Barrel());
         cardStack.add(new Barrel());
-
-        cardStack.add(new Dynamit());
-
-        cardStack.add(new Väzenie());
-        cardStack.add(new Väzenie());
-        cardStack.add(new Väzenie());
-
+        cardStack.add(new Dynamite());
         Collections.shuffle(cardStack);
     }
 
@@ -155,7 +147,7 @@ public class Game {
     public void playCards(Player currentPlayer, int currentPlayerIndex){
         while(currentPlayer.getDeck().size() > 0){
 
-            currentPlayer.printHand();
+
             int cardPlayedIndex = KeyboardInput.readInt("Pick which card to play") - 1;
 
             if (cardPlayedIndex != -1) {
@@ -165,6 +157,7 @@ public class Game {
             else{
                 break;
             }
+            currentPlayer.status();
         }
     }
 
@@ -175,8 +168,8 @@ public class Game {
 
             currentPlayer.printHand();
             indexOfDiscardCard = KeyboardInput.readInt("Pick which card to dicard") - 1;
-            currentPlayer.removeCardFromDeck(indexOfDiscardCard);
             discardStack.add(currentPlayer.getCardFromDeck(indexOfDiscardCard));
+            currentPlayer.removeCardFromDeck(indexOfDiscardCard);
 
         }
     }

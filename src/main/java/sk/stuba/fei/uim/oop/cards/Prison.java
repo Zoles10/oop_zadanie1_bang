@@ -6,10 +6,10 @@ import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 import java.util.List;
 import java.util.Random;
 
-public class Väzenie extends BlueCard{
+public class Prison extends BlueCard{
     Random rand;
-    public Väzenie(){
-        super("Väzenie");
+    public Prison(){
+        super("Prison");
         rand = new Random();
     }
 
@@ -28,6 +28,11 @@ public class Väzenie extends BlueCard{
         int attackedPlayerIndex = KeyboardInput.readInt("Pick a player") - 1;
 
         Player attackedPlayer = players.get(attackedPlayerIndex);
+
+        if(attackedPlayer.hasPrisonOnTable()){
+            System.out.println("Cannot place Prison on the players table, he is already imprisoned.");
+            return;
+        }
 
         attackedPlayer.addToPassiveEffects(currentPlayer.getCardFromDeck(indexOfPlayedCard));
         attackedPlayer.setIsInPrison(true);

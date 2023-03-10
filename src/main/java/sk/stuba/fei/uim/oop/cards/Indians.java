@@ -4,9 +4,9 @@ import sk.stuba.fei.uim.oop.Player;
 
 import java.util.List;
 
-public class Indiáni extends BrownCard{
-    public Indiáni() {
-        super("Indiáni");
+public class Indians extends BrownCard{
+    public Indians() {
+        super("Indians");
     }
 
 
@@ -18,7 +18,7 @@ public class Indiáni extends BrownCard{
             if(enemyPlayerIndex != indexOfCurrentPlayer) {
                 if(players.get(enemyPlayerIndex).hasBang()){
                     players.get(enemyPlayerIndex).removeBangFromDeck();
-                    System.out.println("T\u001B[33mhe enemy player "+players.get(enemyPlayerIndex).getName()+" blocked the attack and used Bang!");
+                    System.out.println("\u001B[33The enemy player "+players.get(enemyPlayerIndex).getName()+" blocked the attack and used Bang!\u001B[0m");
                 }
                 else{
                     players.get(enemyPlayerIndex).setHp( players.get(enemyPlayerIndex).getHp() - 1);

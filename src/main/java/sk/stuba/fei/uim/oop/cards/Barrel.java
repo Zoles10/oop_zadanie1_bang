@@ -18,6 +18,10 @@ public class Barrel extends BlueCard{
     public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
 
         Player currentPlayer = players.get(indexOfCurrentPlayer);
+
+        if(currentPlayer.hasBarrelOnTable()){
+            System.out.println("You cannot play Barrel, you are have one on the table!");
+        }
         currentPlayer.addToPassiveEffects(currentPlayer.getCardFromDeck(indexOfPlayedCard));
         currentPlayer.removeCardFromDeck(indexOfPlayedCard);
 

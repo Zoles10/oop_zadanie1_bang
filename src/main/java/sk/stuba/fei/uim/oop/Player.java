@@ -105,7 +105,7 @@ public class Player {
 
     public boolean hasVedla() {
         for (Card card : deck) {
-            if (card instanceof Vedľa) {
+            if (card instanceof Missed) {
                 return true;
             }
         }
@@ -113,7 +113,7 @@ public class Player {
     }
     public void removeVedlaFromDeck() {
         for (Card card : deck) {
-            if (card instanceof Vedľa) {
+            if (card instanceof Missed) {
                 deck.remove(card);
                 break;
             }
@@ -127,6 +127,25 @@ public class Player {
         }
         return false;
     }
+
+    public boolean hasPrisonOnTable() {
+        for (Card card : passiveEffects) {
+            if (card instanceof Prison) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasDynamiteOnTable() {
+        for (Card card : passiveEffects) {
+            if (card instanceof Prison) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean hasBarrelOnTable() {
         for (Card card : passiveEffects) {
             if (card instanceof Barrel) {
@@ -146,7 +165,7 @@ public class Player {
     }
     public void removeDynamite(List<Card> discardPile) {
         for (Card card : passiveEffects) {
-            if (card instanceof Dynamit) {
+            if (card instanceof Dynamite) {
                 passiveEffects.remove(card);
                 discardPile.add(card);
                 break;
@@ -155,7 +174,7 @@ public class Player {
     }
     public void removePrison(List<Card> discardPile) {
         for (Card card : passiveEffects) {
-            if (card instanceof Väzenie) {
+            if (card instanceof Prison) {
                 passiveEffects.remove(card);
                 discardPile.add(card);
                 break;
@@ -179,34 +198,25 @@ public class Player {
     //TODO fix PRISON, player has turns until he escapes
     public void checkTable(int currentPlayerIndex, List<Player> playerList, List<Card> discardPile){
         Boolean removePrisonFlag = false;
-        Boolean removeDynamiteFlag = false;
 
         for (Card blueCard : this.getPassiveEffects()) {
 
-            if (blueCard instanceof Dynamit) {
-                if(((Dynamit) blueCard).didExecute()){
+            if (blueCard instanceof Dynamite) {
+                if(((Dynamite) blueCard).didExecute()){
                     this.setHp(this.getHp() - 3);
                     System.out.println("\u001B[32mDynamite exploded!\u001B[0m");
-                    removeDynamiteFlag = true;
                 }
 
                 else{
-                    this.removeDynamite(discardPile);
+                    int indexOfNextPlayer = currentPlayerIndex == 0 ? playerList.size()-1 : currentPlayerIndex-1;
                     System.out.println("Dynamite didnt explode and passed to another player");
-                    if(currentPlayerIndex == 0){
-                        playerList.get(playerList.size()-1).addToPassiveEffects(new Dynamit());
-                    }
-
-                    else{
-                        playerList.get(currentPlayerIndex-1).addToPassiveEffects(new Dynamit());
-                    }
-                    removeDynamiteFlag = true;
+                    playerList.get(indexOfNextPlayer).addToPassiveEffects(new Dynamite());
                 }
             }
 
-            else if(blueCard instanceof Väzenie){
+            else if(blueCard instanceof Prison){
 
-                if(((Väzenie) blueCard).didExecute()){
+                if(((Prison) blueCard).didExecute()){
                     System.out.println("You escape prison!");
                     removePrisonFlag = true;
 
@@ -215,6 +225,7 @@ public class Player {
                 else {
 
                     this.setIsInPrison(true);
+                    status();
                     System.out.println("You didnt escape prison and skip a turn");
                 }
             }
@@ -224,9 +235,7 @@ public class Player {
             this.removePrison(discardPile);
         }
 
-        if(removeDynamiteFlag){
-            this.removeDynamite(discardPile);
-        }
+        this.removeDynamite(discardPile);
     }
 
     public boolean isDead(){

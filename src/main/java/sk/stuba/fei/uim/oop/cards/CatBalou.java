@@ -39,6 +39,8 @@ public class CatBalou extends BrownCard{
                 randomIndex = rand.nextInt(attackedPlayer.getDeck().size());
                 discardPile.add(attackedPlayer.getCardFromDeck(randomIndex));
                 attackedPlayer.removeCardFromDeck(randomIndex);
+                discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
+                currentPlayer.removeCardFromDeck(indexOfPlayedCard);
             }
             else{
                 System.out.println("Player has no card in hand");
@@ -51,6 +53,8 @@ public class CatBalou extends BrownCard{
                 randomIndex = rand.nextInt(attackedPlayer.getPassiveEffects().size());
                 discardPile.add(attackedPlayer.getCardFromPassiveEffects(randomIndex));
                 attackedPlayer.removeCardFromPassiveEffects(randomIndex);
+                discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
+                currentPlayer.removeCardFromDeck(indexOfPlayedCard);
             }
             else{
                 System.out.println("Player has no card on table");
@@ -60,9 +64,7 @@ public class CatBalou extends BrownCard{
             System.out.printf("Not a valid choice");
         }
 
-        discardPile.add(currentPlayer.getCardFromDeck(indexOfPlayedCard));
 
-        currentPlayer.removeCardFromDeck(indexOfPlayedCard);
 
     }
 }
