@@ -156,7 +156,7 @@ public class Player {
             if (blueCard instanceof Dynamite) {
                 if(((Dynamite) blueCard).didExecute()){
                     this.setHp(this.getHp() - 3);
-                    System.out.println("\u001B[31mDynamite exploded! You got 3 dmg and you have \\u001B[32m"+ this.hp+" HP.\u001B[0m");
+                    System.out.println("\u001B[31mDynamite exploded! You got 3 dmg and you have \u001B[32m"+ this.hp+" HP.\u001B[0m");
                 }
                 else{
                     int indexOfNextPlayer = currentPlayerIndex == 0 ? playerList.size()-1 : currentPlayerIndex-1;
