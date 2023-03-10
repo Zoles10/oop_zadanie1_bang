@@ -67,7 +67,7 @@ public class Player {
     }
 
     public void printHp(){
-        System.out.println("\u001B[32m\n---" + this.name + "---"+this.getHp()+" HP \u001B[0m");
+        System.out.println("\u001B[32m\n---\u001B[1m" + this.name + "---"+this.getHp()+" HP \u001B[0m");
     }
 
     public void printHand(){
@@ -156,17 +156,17 @@ public class Player {
             if (blueCard instanceof Dynamite) {
                 if(((Dynamite) blueCard).didExecute()){
                     this.setHp(this.getHp() - 3);
-                    System.out.println("\u001B[32mDynamite exploded!\u001B[0m");
+                    System.out.println("\u001B[31mDynamite exploded! You got 3 dmg and you have \\u001B[32m"+ this.hp+" HP.\u001B[0m");
                 }
                 else{
                     int indexOfNextPlayer = currentPlayerIndex == 0 ? playerList.size()-1 : currentPlayerIndex-1;
-                    System.out.println("Dynamite didnt explode and passed to another player");
+                    System.out.println("\u001B[33mDynamite didnt explode and passed to another player\u001B[0m");
                     playerList.get(indexOfNextPlayer).addToTable(new Dynamite());
                 }
             }
             else if(blueCard instanceof Prison){
                 if(((Prison) blueCard).didExecute()){
-                    System.out.println("You escape prison!");
+                    System.out.println("\u001B[33mYou escape prison!\u001B[0m");
                     removePrisonFlag = true;
 
                     this.setIsInPrison(false);
@@ -174,7 +174,7 @@ public class Player {
                 else {
                     this.setIsInPrison(true);
                     status();
-                    System.out.println("You didnt escape prison and skip a turn");
+                    System.out.println("\u001B[31mYou didnt escape prison and skip a turn\u001B[0m");
                 }
             }
         }
@@ -184,7 +184,7 @@ public class Player {
         this.removeDynamiteFromTable(discardPile);
     }
 
-    public void playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
+    public boolean playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
         while(getHand().size() > 0){
 
 
@@ -193,16 +193,44 @@ public class Player {
             if (cardPlayedIndex != -1) {
                 //if a card is chosen, play it and remove from hand
                 getCardFromHand(cardPlayedIndex).useEffect(playerList, currentPlayerIndex, cardPlayedIndex, cardStack, discardPile);
+                checkIfAPlayerDied(playerList, discardPile);
+                if(!checkIfWin(playerList)){
+                    return false;
+                }
             }
             else{
                 break;
             }
             status();
         }
+        return true;
+    }
+
+    public void checkIfAPlayerDied(List<Player> players,List<Card> discardPile){
+        for(Player player : players){
+            if(player.isDead()){
+                removePlayer(player,players, discardPile);
+            }
+        }
+    }
+
+    public void removePlayer(Player currentPlayer, List<Player> playerList,List<Card> discardPile){
+        for(int cardIndex = 0; cardIndex < currentPlayer.getHand().size(); cardIndex++){
+            discardPile.add(currentPlayer.getCardFromHand(cardIndex));
+            currentPlayer.removeCardFromHand(cardIndex);
+        }
+        playerList.remove(currentPlayer);
+    }
+
+    public boolean checkIfWin(List<Player> playerList){
+        if(playerList.size()==1){
+            System.out.println("\u001B[32m \u001B[1mThe winner is "+this.getName()+"\u001B[0m");
+            return false;
+        }
+        return true;
     }
 
     public void discardCards(List<Card> discardPile){
-
         int indexOfDiscardCard;
         while(this.hand.size() > this.hp){
             printHand();
@@ -213,6 +241,6 @@ public class Player {
     }
 
     public boolean isDead(){
-        return this.hp < 1 ? true : false;
+        return this.hp < 1;
     }
 }

@@ -37,7 +37,11 @@ public class Bang extends BrownCard {
         }
         else {
             attackedPlayer.setHp(attackedPlayer.getHp() - 1);
-            System.out.println("\u001B[31mThe player lost an HP, he now has "+attackedPlayer.getHp()+"\u001B[0m");
+            System.out.println("\u001B[31mThe player " + attackedPlayer.getName()+ " git hit by Bang, he now has \u001B[32m"+attackedPlayer.getHp()+"HP\u001B[0m");
+
+            if(attackedPlayer.getHp() < 1){
+                players.remove(attackedPlayer);
+            }
         }
 
         discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));

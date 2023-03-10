@@ -29,6 +29,6 @@ public class Dynamite extends BlueCard {
     @Override
     public boolean didExecute(){
         int chance = rand.nextInt(8);
-        return chance == 0 ? true : false;
+        return chance == 0;
     }
 }

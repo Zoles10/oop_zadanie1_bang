@@ -30,7 +30,7 @@ public class Barrel extends BlueCard{
     @Override
     public boolean didExecute(){
         int chance = rand.nextInt(4);
-        return chance == 0 ? true : false;
+        return chance == 0;
     }
 
 

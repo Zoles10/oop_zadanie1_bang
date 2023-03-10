@@ -4,11 +4,9 @@ import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Collections;
 
 public class Game {
-
     boolean gameInProgress;
     int playerCount;
     List<Player> playerList;
@@ -27,36 +25,25 @@ public class Game {
 
         createDeck();
         setUpPlayers();
-
+        System.out.println("\u001B[1m\n-------LET THE GAME BEGIN!-------\u001B[1m");
         //Main game loop
         while (gameInProgress) {
+
 
             //all player have a turn
             for (int currentPlayerIndex = 0; currentPlayerIndex < playerList.size(); currentPlayerIndex++) {
 
                 Player currentPlayer = playerList.get(currentPlayerIndex);
 
-                //if player is dead, discard cards and delete from playerList
-                if(currentPlayer.isDead()){
-                    removePlayer(currentPlayer, currentPlayerIndex);
-                    break;
-                }
-
                 //if currentPlayer is the last one alive, he wins
-                if(playerList.size()==1){
-                    gameInProgress = false;
-                    System.out.println("The winner is "+currentPlayer.getName());
-                    break;
-                }
+
 
                 System.out.println("\u001B[36m--------------PLAYER TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
 
                 currentPlayer.checkTable(currentPlayerIndex, playerList, discardPile);
 
 
-
                 if(currentPlayer.getIsInPrison()){
-                    System.out.println("This player skips a turn because he is imprisoned");
                     break;
                 }
 
@@ -65,7 +52,13 @@ public class Game {
 
                 currentPlayer.status();
 
-                currentPlayer.playCards(playerList,currentPlayerIndex,cardStack,discardPile);
+                this.gameInProgress = currentPlayer.playCards(playerList,currentPlayerIndex,cardStack,discardPile);
+
+                if(!gameInProgress){
+                    break;
+                }
+
+
 
                 currentPlayer.discardCards(discardPile);
 
@@ -81,7 +74,7 @@ public class Game {
             cardStack.add(new Bang());
         }
         for (int i = 0; i < 15; i++) {
-            cardStack.add(new Missed());
+            cardStack.add(new Bang());
         }
         for (int i = 0; i < 8; i++) {
             cardStack.add(new Beer());
@@ -119,13 +112,7 @@ public class Game {
 
     }
 
-    public void removePlayer(Player currentPlayer, int currentPlayerIndex){
-        for(int cardIndex = 0; cardIndex < currentPlayer.getHand().size(); cardIndex++){
-            this.discardPile.add(currentPlayer.getCardFromHand(cardIndex));
-            currentPlayer.removeCardFromHand(cardIndex);
-        }
-        playerList.remove(currentPlayerIndex);
-    }
+
 
     public void  drawCards(int numberOfCards, Player player){
         for (int i = 0; i < numberOfCards; i++) {
