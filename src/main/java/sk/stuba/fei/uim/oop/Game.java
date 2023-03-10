@@ -29,25 +29,18 @@ public class Game {
         //Main game loop
         while (gameInProgress) {
 
-
-            //all player have a turn
             for (int currentPlayerIndex = 0; currentPlayerIndex < playerList.size(); currentPlayerIndex++) {
 
                 Player currentPlayer = playerList.get(currentPlayerIndex);
-
-                //if currentPlayer is the last one alive, he wins
-
 
                 System.out.println("\u001B[36m--------------PLAYER TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
 
                 currentPlayer.checkTable(currentPlayerIndex, playerList, discardPile);
 
-
                 if(currentPlayer.getIsInPrison()){
                     break;
                 }
 
-                //draw 2 cards at the start of the round
                 drawCards(2,currentPlayer);
 
                 currentPlayer.status();
@@ -57,8 +50,6 @@ public class Game {
                 if(!gameInProgress){
                     break;
                 }
-
-
 
                 currentPlayer.discardCards(discardPile);
 
@@ -71,7 +62,7 @@ public class Game {
 
     public void createDeck() {
         for (int i = 0; i < 30; i++) {
-            cardStack.add(new Bang());
+            cardStack.add(new Prison());
         }
         for (int i = 0; i < 15; i++) {
             cardStack.add(new Missed());
@@ -97,7 +88,9 @@ public class Game {
 
     public void setUpPlayers() {
         //set up of player
-        playerCount = KeyboardInput.readInt("Enter number of player");
+        while(playerCount < 2 || playerCount > 4) {
+            playerCount = KeyboardInput.readInt("Enter number of player (2-4)",2,"Invalid input, try again.");
+        }
 
         //create players and get their names
         for (int i = 0; i < playerCount; i++) {

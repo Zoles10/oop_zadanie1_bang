@@ -187,8 +187,10 @@ public class Player {
     public boolean playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
         while(getHand().size() > 0){
 
-
-            int cardPlayedIndex = KeyboardInput.readInt("Pick which card to play") - 1;
+            int cardPlayedIndex = -2;
+            while(cardPlayedIndex < -1 || cardPlayedIndex > hand.size() - 1 ) {
+                cardPlayedIndex = KeyboardInput.readInt("Pick which card to play") - 1;
+            }
 
             if (cardPlayedIndex != -1) {
                 //if a card is chosen, play it and remove from hand
@@ -231,10 +233,13 @@ public class Player {
     }
 
     public void discardCards(List<Card> discardPile){
-        int indexOfDiscardCard;
+
         while(this.hand.size() > this.hp){
             printHand();
-            indexOfDiscardCard = KeyboardInput.readInt("Pick which card to dicard") - 1;
+            int indexOfDiscardCard = -1;
+            while(indexOfDiscardCard < 0 || indexOfDiscardCard > this.hand.size()-1) {
+                indexOfDiscardCard = KeyboardInput.readInt("Pick which card to dicard") - 1;
+            }
             discardPile.add(getCardFromHand(indexOfDiscardCard));
             removeCardFromHand(indexOfDiscardCard);
         }
