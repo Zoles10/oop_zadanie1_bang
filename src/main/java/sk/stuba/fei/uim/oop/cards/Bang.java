@@ -17,7 +17,7 @@ public class Bang extends BrownCard {
         //TODO add check if enemy player has BARREL on TABLE
 
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        System.out.print("Pick which player to attack, players: ");
+        System.out.print("Pick which player to attack, players: \n");
 
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
 
@@ -38,10 +38,6 @@ public class Bang extends BrownCard {
         else {
             attackedPlayer.setHp(attackedPlayer.getHp() - 1);
             System.out.println("\u001B[31mThe player " + attackedPlayer.getName()+ " git hit by Bang, he now has \u001B[32m"+attackedPlayer.getHp()+"HP\u001B[0m");
-
-            if(attackedPlayer.getHp() < 1){
-                players.remove(attackedPlayer);
-            }
         }
 
         discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));

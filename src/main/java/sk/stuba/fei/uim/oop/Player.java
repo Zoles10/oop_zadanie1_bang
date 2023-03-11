@@ -110,7 +110,7 @@ public class Player {
     }
 
     public boolean hasBangOnHand() {
-        return hasCardOfType(this.hand,Missed.class);
+        return hasCardOfType(this.hand,Bang.class);
     }
 
     public boolean hasPrisonOnTable() {
@@ -156,11 +156,22 @@ public class Player {
             if (blueCard instanceof Dynamite) {
                 if(((Dynamite) blueCard).didExecute()){
                     this.setHp(this.getHp() - 3);
+
                     System.out.println("\u001B[31mDynamite exploded! You got 3 dmg and you have \u001B[32m"+ this.hp+" HP.\u001B[0m");
                 }
                 else{
                     int indexOfNextPlayer = currentPlayerIndex == 0 ? playerList.size()-1 : currentPlayerIndex-1;
-                    System.out.println("\u001B[33mDynamite didnt explode and passed to another player\u001B[0m");
+
+                    while(playerList.get(indexOfNextPlayer).isDead()){
+                        if(indexOfNextPlayer == 0){
+                            indexOfNextPlayer = playerList.size()-1;
+                        }
+                        else{
+                            indexOfNextPlayer--;
+                        }
+                    }
+
+                    System.out.println("\u001B[33mDynamite didnt explode and passed to "+ playerList.get(indexOfNextPlayer).getName()+"\u001B[0m");
                     playerList.get(indexOfNextPlayer).addToTable(new Dynamite());
                 }
             }
@@ -189,6 +200,10 @@ public class Player {
     public boolean playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
         while(getHand().size() > 0){
 
+            if(!checkIfWin(playerList)){
+                return false;
+            }
+
             int cardPlayedIndex = -2;
             while(cardPlayedIndex < -1 || cardPlayedIndex > hand.size() - 1 ) {
                 cardPlayedIndex = KeyboardInput.readInt("Pick which card to play") - 1;
@@ -197,7 +212,6 @@ public class Player {
             if (cardPlayedIndex != -1) {
                 //if a card is chosen, play it and remove from hand
                 getCardFromHand(cardPlayedIndex).useEffect(playerList, currentPlayerIndex, cardPlayedIndex, cardStack, discardPile);
-                checkIfAPlayerDied(playerList, discardPile);
                 if(!checkIfWin(playerList)){
                     return false;
                 }
@@ -210,24 +224,16 @@ public class Player {
         return true;
     }
 
-    public void checkIfAPlayerDied(List<Player> players,List<Card> discardPile){
-        for(Player player : players){
-            if(player.isDead()){
-                removePlayer(player,players, discardPile);
-            }
-        }
-    }
 
-    public void removePlayer(Player currentPlayer, List<Player> playerList,List<Card> discardPile){
-        for(int cardIndex = 0; cardIndex < currentPlayer.getHand().size(); cardIndex++){
-            discardPile.add(currentPlayer.getCardFromHand(cardIndex));
-            currentPlayer.removeCardFromHand(cardIndex);
-        }
-        playerList.remove(currentPlayer);
-    }
 
     public boolean checkIfWin(List<Player> playerList){
-        if(playerList.size()==1){
+        int playersAlive = 0;
+        for(Player player : playerList){
+            if(!player.isDead()){
+                playersAlive++;
+            }
+        }
+        if(playersAlive==1){
             System.out.println("\u001B[32m \u001B[1mThe winner is "+this.getName()+"\u001B[0m");
             return false;
         }

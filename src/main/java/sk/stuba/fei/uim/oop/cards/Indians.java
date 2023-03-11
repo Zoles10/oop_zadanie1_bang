@@ -15,12 +15,12 @@ public class Indians extends BrownCard{
         Player currentPlayer = players.get(indexOfCurrentPlayer);
 
         for(int enemyPlayerIndex = 0; enemyPlayerIndex < players.size(); enemyPlayerIndex++){
-            if(enemyPlayerIndex != indexOfCurrentPlayer) {
+            if(enemyPlayerIndex != indexOfCurrentPlayer && !players.get(enemyPlayerIndex).isDead()) {
                 if(players.get(enemyPlayerIndex).hasBangOnHand()){
                     players.get(enemyPlayerIndex).removeBangFromHand(discardPile);
                     System.out.println("\u001B[33mThe enemy player "+players.get(enemyPlayerIndex).getName()+" blocked the attack and used Bang!\u001B[0m");
                 }
-                else{
+                else if(!players.get(enemyPlayerIndex).isDead()){
                     players.get(enemyPlayerIndex).setHp( players.get(enemyPlayerIndex).getHp() - 1);
                     System.out.println("\u001B[31m The enemy player "+players.get(enemyPlayerIndex).getName()+" didnt have Bang and lost and HP, now he has\u001B[32m "+players.get(enemyPlayerIndex).getHp()+" HP!\u001B[0m");
                 }

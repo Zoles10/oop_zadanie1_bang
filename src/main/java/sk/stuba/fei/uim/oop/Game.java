@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Collections;
 
 public class Game {
-    boolean gameInProgress;
-    int playerCount;
-    List<Player> playerList;
-    List<Card> cardStack;
-    List<Card> discardPile;
+    private boolean gameInProgress;
+    private int playerCount;
+    private List<Player> playerList;
+    private List<Card> cardStack;
+    private List<Card> discardPile;
 
     Game() {
         this.gameInProgress = true;
@@ -33,11 +33,15 @@ public class Game {
 
                 Player currentPlayer = playerList.get(currentPlayerIndex);
 
+                if(currentPlayer.isDead()){
+                    continue;
+                }
+
                 System.out.println("\u001B[36m--------------PLAYER TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
 
                 currentPlayer.checkTable(currentPlayerIndex, playerList, discardPile);
 
-                if(currentPlayer.getIsInPrison()){
+                if(currentPlayer.getIsInPrison() || currentPlayer.isDead()){
                     continue;
                 }
 
@@ -55,6 +59,8 @@ public class Game {
 
                 currentPlayer.status();
 
+                checkIfAPlayerDied(playerList,discardPile);
+
             }
 
         }
@@ -62,7 +68,7 @@ public class Game {
 
     public void createDeck() {
         for (int i = 0; i < 30; i++) {
-            cardStack.add(new Dynamite());
+            cardStack.add(new Bang());
         }
         for (int i = 0; i < 15; i++) {
             cardStack.add(new Missed());
@@ -105,6 +111,26 @@ public class Game {
 
     }
 
+    public void checkIfAPlayerDied(List<Player> players,List<Card> discardPile){
+        for(Player player : players){
+            if(player.isDead()){
+                removePlayerCards(player,discardPile);
+            }
+        }
+    }
+
+    public void removePlayerCards(Player currentPlayer, List<Card> discardPile){
+
+        for(int cardIndex = 0; cardIndex < currentPlayer.getHand().size(); cardIndex++){
+            discardPile.add(currentPlayer.getCardFromHand(cardIndex));
+            currentPlayer.removeCardFromHand(cardIndex);
+        }
+
+        for(int cardIndex = 0; cardIndex < currentPlayer.getTable().size(); cardIndex++){
+            discardPile.add(currentPlayer.getCardFromTable(cardIndex));
+            currentPlayer.removeCardFromTable(cardIndex);
+        }
+    }
 
 
     public void  drawCards(int numberOfCards, Player player){
