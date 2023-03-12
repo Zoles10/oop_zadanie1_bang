@@ -14,19 +14,17 @@ public class Bang extends BrownCard {
     @Override
     public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
 
-        //TODO add check if enemy player has BARREL on TABLE
-
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         System.out.print("Pick which player to attack, players: \n");
 
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
 
         if(attackedPlayer.hasBarrelOnTable()){
-            Barrel barrel = new Barrel();
-            if(barrel.didExecute()){
-                attackedPlayer.removeBarrelFromTable(discardPile);
-                System.out.print("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
-                return;
+            for(Card card : currentPlayer.getTable()) {
+                if (card instanceof Barrel && card.didExecute(players, indexOfCurrentPlayer, discardPile)) {
+                    System.out.print("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
+                    return;
+                }
             }
         }
 
@@ -37,14 +35,11 @@ public class Bang extends BrownCard {
         }
         else {
             attackedPlayer.setHp(attackedPlayer.getHp() - 1);
-            System.out.println("\u001B[31mThe player " + attackedPlayer.getName()+ " git hit by Bang, he now has \u001B[32m"+attackedPlayer.getHp()+"HP\u001B[0m");
+            System.out.println("\u001B[31mThe player " + attackedPlayer.getName()+ " got hit by Bang, he now has \u001B[32m"+attackedPlayer.getHp()+"HP\u001B[0m");
         }
 
         discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
 
         currentPlayer.removeCardFromHand(indexOfPlayedCard);
-
-
-
     }
 }

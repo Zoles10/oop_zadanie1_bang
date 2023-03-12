@@ -11,7 +11,6 @@ public class Stagecoach extends BrownCard{
         super( "Stagecoach");
     }
 
-
     @Override
     public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> cardStack, List<Card> discardPile){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
@@ -24,12 +23,11 @@ public class Stagecoach extends BrownCard{
         currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 
-    public void refillDeckIfEmpty(List<Card> cardStack, List<Card> discardPile){
-
+    private void refillDeckIfEmpty(List<Card> cardStack, List<Card> discardPile){
         if(cardStack.size()>0){
             return;
         }
-        System.out.print("CARD STACK REFILLED");
+        System.out.print("The cards are being shuffled from the discard pile!");
         List<Card> temp = new ArrayList<>(cardStack);
         cardStack.clear();
         cardStack.addAll(discardPile);
@@ -37,5 +35,4 @@ public class Stagecoach extends BrownCard{
         discardPile.addAll(temp);
         Collections.shuffle(cardStack);
     }
-
 }

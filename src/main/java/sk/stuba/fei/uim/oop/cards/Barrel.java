@@ -16,9 +16,7 @@ public class Barrel extends BlueCard{
 
     @Override
     public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
-
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-
         if(currentPlayer.hasBarrelOnTable()){
             System.out.println("You cannot play Barrel, you are have one on the table!");
             return;
@@ -29,7 +27,7 @@ public class Barrel extends BlueCard{
     }
 
     @Override
-    public boolean didExecute(){
+    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer, List<Card> discardPile){
         int chance = rand.nextInt(4);
         return chance == 0;
     }

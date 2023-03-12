@@ -13,6 +13,8 @@ public class Missed extends BrownCard{
     @Override
     public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        System.out.println("You cannot play Missed!");
+        Card currentPlayedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
+        discardPile.add(currentPlayedCard);
+        currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 }

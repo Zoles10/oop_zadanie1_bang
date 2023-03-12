@@ -25,10 +25,8 @@ public class Indians extends BrownCard{
                     System.out.println("\u001B[31m The enemy player "+players.get(enemyPlayerIndex).getName()+" didnt have Bang and lost and HP, now he has\u001B[32m "+players.get(enemyPlayerIndex).getHp()+" HP!\u001B[0m");
                 }
             }
-
         }
         discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
-
         currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 }

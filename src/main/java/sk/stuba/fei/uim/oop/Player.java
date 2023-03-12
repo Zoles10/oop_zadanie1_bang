@@ -28,7 +28,6 @@ public class Player {
     public void setHp(int hp) {
         this.hp = hp;
     }
-
     public List<Card> getHand() {
         return this.hand;
     }
@@ -74,7 +73,7 @@ public class Player {
         System.out.println("\u001B[35mHand: ");
         if(this.hand.size()>0) {
             for (int i = 0; i < hand.size(); i++) {
-                System.out.println((i + 1) + ". " + hand.get(i).name + " ");
+                System.out.println((i + 1) + ". " + hand.get(i).getName() + " ");
             }
             System.out.println("\n\u001B[0m");
         }
@@ -88,7 +87,7 @@ public class Player {
         if (this.table.size() > 0) {
 
             for (int i = 0; i < table.size(); i++) {
-                System.out.print((i + 1) + ". " + table.get(i).name + " ");
+                System.out.print((i + 1) + ". " + table.get(i).getName() + " ");
             }
             System.out.println("\n\u001B[0m");
         } else {
@@ -104,23 +103,18 @@ public class Player {
         }
         return false;
     }
-
     public boolean hasMissedOnHand() {
         return hasCardOfType(this.hand,Missed.class);
     }
-
     public boolean hasBangOnHand() {
         return hasCardOfType(this.hand,Bang.class);
     }
-
     public boolean hasPrisonOnTable() {
         return hasCardOfType(this.table,Prison.class);
     }
-
     public boolean hasDynamiteOnTable() {
         return hasCardOfType(this.table,Dynamite.class);
     }
-
     public boolean hasBarrelOnTable() {
         return hasCardOfType(this.table,Barrel.class);
     }
@@ -137,78 +131,24 @@ public class Player {
     public void removeMissedFromHand(List<Card> discardPile) {
         removeCardOfType(hand, Missed.class, discardPile);
     }
-    public void removeBarrelFromTable(List<Card> discardPile) {
-        removeCardOfType(table, Barrel.class, discardPile);
-    }
-    public void removeDynamiteFromTable(List<Card> discardPile) {
-        removeCardOfType(table, Dynamite.class, discardPile);
-    }
-    public void removePrisonFromTable(List<Card> discardPile) {
-        removeCardOfType(table, Prison.class, discardPile);
-    }
     public void removeBangFromHand(List<Card> discardPile) {
         removeCardOfType(hand, Bang.class, discardPile);
     }
 
     public void checkTable(int currentPlayerIndex, List<Player> playerList, List<Card> discardPile){
-        boolean removePrisonFlag = false;
-        for (Card blueCard : this.getTable()) {
-            if (blueCard instanceof Dynamite) {
-                if(((Dynamite) blueCard).didExecute()){
-                    this.setHp(this.getHp() - 3);
-
-                    System.out.println("\u001B[31mDynamite exploded! You got 3 dmg and you have \u001B[32m"+ this.hp+" HP.\u001B[0m");
-                }
-                else{
-                    int indexOfNextPlayer = currentPlayerIndex == 0 ? playerList.size()-1 : currentPlayerIndex-1;
-
-                    while(playerList.get(indexOfNextPlayer).isDead()){
-                        if(indexOfNextPlayer == 0){
-                            indexOfNextPlayer = playerList.size()-1;
-                        }
-                        else{
-                            indexOfNextPlayer--;
-                        }
-                    }
-
-                    System.out.println("\u001B[33mDynamite didnt explode and passed to "+ playerList.get(indexOfNextPlayer).getName()+"\u001B[0m");
-                    playerList.get(indexOfNextPlayer).addToTable(new Dynamite());
-                }
-            }
-            else if(blueCard instanceof Prison){
-                if(((Prison) blueCard).didExecute()){
-                    System.out.println("\u001B[33mYou escape prison!\u001B[0m");
-                    removePrisonFlag = true;
-
-                    this.setIsInPrison(false);
-                }
-                else {
-                    this.setIsInPrison(true);
-
-                    System.out.println("\u001B[31mYou didnt escape prison and skip a turn\u001B[0m");
-                }
-            }
-        }
-        if(removePrisonFlag){
-            this.removePrisonFromTable(discardPile);
-            status();
-        }
-        this.removeDynamiteFromTable(discardPile);
-
+        this.getTable().removeIf(card -> card.didExecute(playerList, currentPlayerIndex, discardPile) && card.getClass() != Barrel.class);
     }
 
     public boolean playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
         while(getHand().size() > 0){
 
-            if(!checkIfWin(playerList)){
+            if(checkIfWin(playerList)){
                 return false;
             }
-
             int cardPlayedIndex = -2;
             while(cardPlayedIndex < -1 || cardPlayedIndex > hand.size() - 1 ) {
                 cardPlayedIndex = KeyboardInput.readInt("Pick which card to play") - 1;
             }
-
             if (cardPlayedIndex != -1) {
                 //if a card is chosen, play it and remove from hand
                 getCardFromHand(cardPlayedIndex).useEffect(playerList, currentPlayerIndex, cardPlayedIndex, cardStack, discardPile);
@@ -224,8 +164,6 @@ public class Player {
         return true;
     }
 
-
-
     public boolean checkIfWin(List<Player> playerList){
         int playersAlive = 0;
         for(Player player : playerList){
@@ -235,9 +173,9 @@ public class Player {
         }
         if(playersAlive==1){
             System.out.println("\u001B[32m \u001B[1mThe winner is "+this.getName()+"\u001B[0m");
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void discardCards(List<Card> discardPile){
