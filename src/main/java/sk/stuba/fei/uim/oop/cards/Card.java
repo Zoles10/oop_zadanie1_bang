@@ -1,5 +1,6 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.cards;
 
+import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
 import java.util.List;
@@ -15,7 +16,7 @@ abstract public class Card {
         this.name = name;
     }
 
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
     }
 
     protected Player choosePlayerToAttack(List<Player> players, int indexOfCurrentPlayer ){

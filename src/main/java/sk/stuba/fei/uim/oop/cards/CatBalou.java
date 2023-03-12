@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.oop.cards;
-import sk.stuba.fei.uim.oop.Card;
-import sk.stuba.fei.uim.oop.Player;
+import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
 import java.util.Random;

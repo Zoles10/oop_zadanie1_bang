@@ -1,4 +1,5 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.game;
+import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.cards.*;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
@@ -13,7 +14,7 @@ public class Game {
     private List<Card> cardStack;
     private List<Card> discardPile;
 
-    Game() {
+    public Game() {
         this.gameInProgress = true;
         this.playerList = new ArrayList<>();
         this.discardPile = new ArrayList<>();
@@ -32,7 +33,7 @@ public class Game {
                 if(currentPlayer.getIsInPrison() || currentPlayer.isDead()){
                     continue;
                 }
-                System.out.println("\u001B[36m--------------PLAYER TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
+                System.out.println("\u001B[36m--------------PLAYER "+(currentPlayerIndex+1) + " TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
                 drawCards(2,currentPlayer);
                 currentPlayer.status();
                 gameInProgress = currentPlayer.playCards(playerList,currentPlayerIndex,cardStack,discardPile);
@@ -49,7 +50,7 @@ public class Game {
 
     public void createDeck() {
         for (int i = 0; i < 30; i++) {
-            cardStack.add(new Prison());
+            cardStack.add(new Bang());
         }
         for (int i = 0; i < 15; i++) {
             cardStack.add(new Missed());
@@ -89,7 +90,7 @@ public class Game {
             playerCount = KeyboardInput.readInt("Enter number of player (2-4)",2,"Invalid input, try again.");
         }
         for (int i = 0; i < playerCount; i++) {
-            String name = KeyboardInput.readString("Enter name of Player" + (i + 1) );
+            String name = KeyboardInput.readString("Enter name of Player " + (i + 1) );
             playerList.add(new Player(name));
             drawCards(4,playerList.get(i));
         }

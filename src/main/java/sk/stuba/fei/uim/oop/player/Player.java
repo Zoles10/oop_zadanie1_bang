@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.player;
 import sk.stuba.fei.uim.oop.cards.*;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class Player {
     private List<Card> table;
     private boolean isInPrison;
 
-    Player(String name) {
+    public Player(String name) {
         this.name = name;
         isInPrison = false;
         hp = 4;
@@ -142,7 +142,7 @@ public class Player {
     public boolean playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
         while(getHand().size() > 0){
 
-            if(checkIfWin(playerList)){
+            if(!checkIfGameInProgress(playerList)){
                 return false;
             }
             int cardPlayedIndex = -2;
@@ -152,7 +152,7 @@ public class Player {
             if (cardPlayedIndex != -1) {
                 //if a card is chosen, play it and remove from hand
                 getCardFromHand(cardPlayedIndex).useEffect(playerList, currentPlayerIndex, cardPlayedIndex, cardStack, discardPile);
-                if(!checkIfWin(playerList)){
+                if(!checkIfGameInProgress(playerList)){
                     return false;
                 }
             }
@@ -164,7 +164,7 @@ public class Player {
         return true;
     }
 
-    public boolean checkIfWin(List<Player> playerList){
+    private boolean checkIfGameInProgress(List<Player> playerList){
         int playersAlive = 0;
         for(Player player : playerList){
             if(!player.isDead()){
@@ -173,9 +173,9 @@ public class Player {
         }
         if(playersAlive==1){
             System.out.println("\u001B[32m \u001B[1mThe winner is "+this.getName()+"\u001B[0m");
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void discardCards(List<Card> discardPile){
