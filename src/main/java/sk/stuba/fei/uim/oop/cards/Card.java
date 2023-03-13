@@ -16,7 +16,7 @@ abstract public class Card {
         this.name = name;
     }
 
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard){
     }
 
     protected Player choosePlayerToAttack(List<Player> players, int indexOfCurrentPlayer ){
@@ -32,7 +32,7 @@ abstract public class Card {
         return players.get(attackedPlayerIndex);
     }
 
-    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer, List<Card> discardPile){
+    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer){
         return true;
     }
 

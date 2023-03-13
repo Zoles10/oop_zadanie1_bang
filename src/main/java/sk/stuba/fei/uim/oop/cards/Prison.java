@@ -12,21 +12,22 @@ public class Prison extends BlueCard{
     }
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile) {
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard) {
         Player currentPlayer = players.get(indexOfCurrentPlayer);
+        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         System.out.print("Pick which player to imprison, players: \n");
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
         if(attackedPlayer.hasPrisonOnTable()){
             System.out.println("Cannot place Prison on the players table, he is already imprisoned!");
             return;
         }
-        attackedPlayer.addToTable(currentPlayer.getCardFromHand(indexOfPlayedCard));
+        attackedPlayer.addToTable(playedCard);
+        currentPlayer.removeCardFromHand(playedCard);
         attackedPlayer.setIsInPrison(true);
-        currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 
     @Override
-    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer, List<Card> discardPile){
+    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer){
         int chance = rand.nextInt(4);
         Player currentPlayer = playerList.get(indexOfCurrentPlayer);
         if(chance == 0){

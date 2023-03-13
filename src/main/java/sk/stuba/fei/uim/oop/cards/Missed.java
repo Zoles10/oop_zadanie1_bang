@@ -10,10 +10,10 @@ public class Missed extends BrownCard{
 
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         Card currentPlayedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
-        discardPile.add(currentPlayedCard);
+        currentPlayer.addToDiscardPile(currentPlayedCard);
         currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 }

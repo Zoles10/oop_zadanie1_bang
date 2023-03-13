@@ -10,11 +10,12 @@ public class Beer extends BrownCard{
 
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        currentPlayer.setHp(currentPlayer.getHp()+1);
+        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
+        currentPlayer.incrementHp(1);
         System.out.println("\u001B[32mYou played Beer and healed one HP, you now have "+currentPlayer.getHp()+"\u001B[0m");
-        discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
-        currentPlayer.removeCardFromHand(indexOfPlayedCard);
+        currentPlayer.addToDiscardPile(playedCard);
+        currentPlayer.removeCardFromHand(playedCard);
     }
 }

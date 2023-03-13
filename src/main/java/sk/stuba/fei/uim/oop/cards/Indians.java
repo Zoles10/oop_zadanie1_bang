@@ -10,22 +10,22 @@ public class Indians extends BrownCard{
 
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-
-        for(int enemyPlayerIndex = 0; enemyPlayerIndex < players.size(); enemyPlayerIndex++){
-            if(enemyPlayerIndex != indexOfCurrentPlayer && !players.get(enemyPlayerIndex).isDead()) {
-                if(players.get(enemyPlayerIndex).hasBangOnHand()){
-                    players.get(enemyPlayerIndex).removeBangFromHand(discardPile);
-                    System.out.println("\u001B[33mThe enemy player "+players.get(enemyPlayerIndex).getName()+" blocked the attack and used Bang!\u001B[0m");
+        for(int attackedPlayerIndex = 0; attackedPlayerIndex < players.size(); attackedPlayerIndex++){
+            Player attackedPlayer = players.get(attackedPlayerIndex);
+            if(attackedPlayerIndex != indexOfCurrentPlayer && !players.get(attackedPlayerIndex).isDead()) {
+                if(attackedPlayer.hasBangOnHand()){
+                    attackedPlayer.removeBangFromHand();
+                    System.out.println("\u001B[33mThe enemy player "+players.get(attackedPlayerIndex).getName()+" blocked the attack and used Bang!\u001B[0m");
                 }
-                else if(!players.get(enemyPlayerIndex).isDead()){
-                    players.get(enemyPlayerIndex).setHp( players.get(enemyPlayerIndex).getHp() - 1);
-                    System.out.println("\u001B[31m The enemy player "+players.get(enemyPlayerIndex).getName()+" didnt have Bang and lost and HP, now he has\u001B[32m "+players.get(enemyPlayerIndex).getHp()+" HP!\u001B[0m");
+                else if(!attackedPlayer.isDead()){
+                    attackedPlayer.decrementHp(1);
+                    System.out.println("\u001B[31m The enemy player "+players.get(attackedPlayerIndex).getName()+" didnt have Bang and lost and HP, now he has\u001B[32m "+players.get(attackedPlayerIndex).getHp()+" HP!\u001B[0m");
                 }
             }
         }
-        discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
+        currentPlayer.addToDiscardPile(currentPlayer.getCardFromHand(indexOfPlayedCard));
         currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 }

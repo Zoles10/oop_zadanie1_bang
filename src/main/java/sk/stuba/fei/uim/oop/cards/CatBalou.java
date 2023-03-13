@@ -14,7 +14,7 @@ public class CatBalou extends BrownCard{
     }
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard,List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         System.out.print("Choose a player to discard his cards, avaible players: \n");
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
@@ -26,9 +26,9 @@ public class CatBalou extends BrownCard{
         if(discardFlag==1){
             if(attackedPlayer.getHand().size() > 0 ) {
                 randomIndex = rand.nextInt(attackedPlayer.getHand().size());
-                discardPile.add(attackedPlayer.getCardFromHand(randomIndex));
+                attackedPlayer.addToDiscardPile(attackedPlayer.getCardFromHand(randomIndex));
                 attackedPlayer.removeCardFromHand(randomIndex);
-                discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
+                currentPlayer.addToDiscardPile(currentPlayer.getCardFromHand(indexOfPlayedCard));
                 currentPlayer.removeCardFromHand(indexOfPlayedCard);
                 return;
             }
@@ -37,9 +37,9 @@ public class CatBalou extends BrownCard{
         else{
             if(attackedPlayer.getTable().size() > 0) {
                 randomIndex = rand.nextInt(attackedPlayer.getTable().size());
-                discardPile.add(attackedPlayer.getCardFromTable(randomIndex));
+                attackedPlayer.addToDiscardPile(attackedPlayer.getCardFromTable(randomIndex));
                 attackedPlayer.removeCardFromTable(randomIndex);
-                discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
+                currentPlayer.addToDiscardPile(currentPlayer.getCardFromHand(indexOfPlayedCard));
                 currentPlayer.removeCardFromHand(indexOfPlayedCard);
                 return;
             }

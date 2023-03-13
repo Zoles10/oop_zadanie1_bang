@@ -14,19 +14,20 @@ public class Barrel extends BlueCard{
     }
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
+        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         if(currentPlayer.hasBarrelOnTable()){
             System.out.println("You cannot play Barrel, you are have one on the table!");
             return;
         }
-        currentPlayer.addToTable(currentPlayer.getCardFromHand(indexOfPlayedCard));
-        currentPlayer.removeCardFromHand(indexOfPlayedCard);
+        currentPlayer.addToTable(playedCard);
+        currentPlayer.removeCardFromHand(playedCard);
 
     }
 
     @Override
-    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer, List<Card> discardPile){
+    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer){
         int chance = rand.nextInt(4);
         return chance == 0;
     }

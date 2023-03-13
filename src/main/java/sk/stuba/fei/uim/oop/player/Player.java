@@ -2,6 +2,7 @@ package sk.stuba.fei.uim.oop.player;
 import sk.stuba.fei.uim.oop.cards.*;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -9,14 +10,18 @@ public class Player {
     private int hp;
     private List<Card> hand;
     private List<Card> table;
+    private List<Card> deck;
+    private List<Card> discardPile;
     private boolean isInPrison;
 
-    public Player(String name) {
+    public Player(String name, List<Card> deck, List<Card> discardPile) {
         this.name = name;
         isInPrison = false;
         hp = 4;
         hand = new ArrayList<>();
         table = new ArrayList<>();
+        this.deck = deck;
+        this.discardPile = discardPile;
     }
 
     public String getName() {
@@ -25,9 +30,13 @@ public class Player {
     public int getHp() {
         return this.hp;
     }
-    public void setHp(int hp) {
-        this.hp = hp;
+    public void incrementHp(int num){
+        this.hp = this.hp + num;
     }
+    public void decrementHp(int num){
+        this.hp = this.hp - num;
+    }
+
     public List<Card> getHand() {
         return this.hand;
     }
@@ -36,6 +45,9 @@ public class Player {
     }
     public void removeCardFromHand(int i) {
         this.hand.remove(i);
+    }
+    public void removeCardFromHand(Card card) {
+        this.hand.remove(card);
     }
     public void addToHand(Card card) {
         this.hand.add(card);
@@ -118,28 +130,28 @@ public class Player {
     public boolean hasBarrelOnTable() {
         return hasCardOfType(this.table,Barrel.class);
     }
-
-    private void removeCardOfType(List<Card> cards,Class<? extends Card> type, List<Card> discardPile) {
+    private void removeCardOfType(List<Card> cards,Class<? extends Card> type) {
         for (Card card : cards) {
             if (type.isInstance(card)) {
                 cards.remove(card);
-                discardPile.add(card);
+                this.discardPile.add(card);
                 break;
             }
         }
     }
-    public void removeMissedFromHand(List<Card> discardPile) {
-        removeCardOfType(hand, Missed.class, discardPile);
-    }
-    public void removeBangFromHand(List<Card> discardPile) {
-        removeCardOfType(hand, Bang.class, discardPile);
+    public void removeBangFromHand() {
+        removeCardOfType(hand, Bang.class);
     }
 
-    public void checkTable(int currentPlayerIndex, List<Player> playerList, List<Card> discardPile){
-        this.getTable().removeIf(card -> card.didExecute(playerList, currentPlayerIndex, discardPile) && card.getClass() != Barrel.class);
+    public void removeMissedFromHand() {
+        removeCardOfType(hand, Missed.class);
     }
 
-    public boolean playCards(List<Player> playerList,int currentPlayerIndex, List<Card> cardStack, List<Card> discardPile){
+    public void checkTable(int currentPlayerIndex, List<Player> playerList){
+        this.getTable().removeIf(card -> card.didExecute(playerList, currentPlayerIndex) && card.getClass() != Barrel.class);
+    }
+
+    public boolean playCards(List<Player> playerList,int currentPlayerIndex){
         while(getHand().size() > 0){
 
             if(!checkIfGameInProgress(playerList)){
@@ -150,8 +162,7 @@ public class Player {
                 cardPlayedIndex = KeyboardInput.readInt("Pick which card to play") - 1;
             }
             if (cardPlayedIndex != -1) {
-                //if a card is chosen, play it and remove from hand
-                getCardFromHand(cardPlayedIndex).useEffect(playerList, currentPlayerIndex, cardPlayedIndex, cardStack, discardPile);
+                getCardFromHand(cardPlayedIndex).useEffect(playerList, currentPlayerIndex, cardPlayedIndex);
                 if(!checkIfGameInProgress(playerList)){
                     return false;
                 }
@@ -172,14 +183,18 @@ public class Player {
             }
         }
         if(playersAlive==1){
-            System.out.println("\u001B[32m \u001B[1mThe winner is "+this.getName()+"\u001B[0m");
-            return false;
+            for(Player player : playerList){
+                if(!player.isDead()){
+                    System.out.println("\u001B[32m \u001B[1mThe winner is "+player.getName()+"\u001B[0m");
+                    return false;
+                }
+            }
+
         }
         return true;
     }
 
-    public void discardCards(List<Card> discardPile){
-
+    public void discardCards(){
         while(this.hand.size() > this.hp){
             printHand();
             int indexOfDiscardCard = -1;
@@ -194,4 +209,30 @@ public class Player {
     public boolean isDead(){
         return this.hp < 1;
     }
+
+    public void  drawCards(int numberOfCards){
+        for (int i = 0; i < numberOfCards; i++) {
+            if(deck.size()<1){
+                System.out.print("The cards are being shuffled from the discard pile!");
+                refillDeck();
+            }
+            addToHand(deck.get(deck.size()-1));
+            deck.remove(deck.size()-1);
+        }
+    }
+
+    public void refillDeck(){
+        List<Card> temp = new ArrayList<>(deck);
+        deck.clear();
+        deck.addAll(discardPile);
+        discardPile.clear();
+        discardPile.addAll(temp);
+        Collections.shuffle(deck);
+    }
+
+    public void addToDiscardPile(Card card){
+        this.discardPile.add(card);
+    }
+
+
 }

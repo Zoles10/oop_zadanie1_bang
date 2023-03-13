@@ -29,20 +29,25 @@ public class Game {
         while (gameInProgress) {
             int currentPlayerIndex = 0;
             for(Player currentPlayer : playerList){
-                currentPlayer.checkTable(currentPlayerIndex, playerList, discardPile);
-                if(currentPlayer.getIsInPrison() || currentPlayer.isDead()){
+                if(currentPlayer.isDead()){
+                    currentPlayerIndex++;
                     continue;
                 }
                 System.out.println("\u001B[36m--------------PLAYER "+(currentPlayerIndex+1) + " TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
-                drawCards(2,currentPlayer);
+                currentPlayer.checkTable(currentPlayerIndex, playerList);
+                if(currentPlayer.getIsInPrison()){
+                    currentPlayerIndex++;
+                    continue;
+                }
+                currentPlayer.drawCards(2);
                 currentPlayer.status();
-                gameInProgress = currentPlayer.playCards(playerList,currentPlayerIndex,cardStack,discardPile);
+                gameInProgress = currentPlayer.playCards(playerList,currentPlayerIndex);
                 if(!gameInProgress){
                     break;
                 }
-                currentPlayer.discardCards(discardPile);
+                currentPlayer.discardCards();
                 currentPlayer.status();
-                checkIfAPlayerDied(playerList,discardPile);
+                checkIfAPlayerDied();
                 currentPlayerIndex++;
             }
         }
@@ -53,7 +58,7 @@ public class Game {
             cardStack.add(new Bang());
         }
         for (int i = 0; i < 15; i++) {
-            cardStack.add(new Missed());
+            cardStack.add(new Dynamite());
         }
         for (int i = 0; i < 8; i++) {
             cardStack.add(new Beer());
@@ -75,15 +80,6 @@ public class Game {
         Collections.shuffle(cardStack);
     }
 
-    public void refillDeck(){
-        List<Card> temp = new ArrayList<>(cardStack);
-        cardStack.clear();
-        cardStack.addAll(discardPile);
-        discardPile.clear();
-        discardPile.addAll(temp);
-        Collections.shuffle(cardStack);
-    }
-
     public void setUpPlayers() {
         //set up of player
         while(playerCount < 2 || playerCount > 4) {
@@ -91,38 +87,27 @@ public class Game {
         }
         for (int i = 0; i < playerCount; i++) {
             String name = KeyboardInput.readString("Enter name of Player " + (i + 1) );
-            playerList.add(new Player(name));
-            drawCards(4,playerList.get(i));
+            playerList.add(new Player(name,this.cardStack,this.discardPile));
+            playerList.get(i).drawCards(4);
         }
     }
 
-    public void checkIfAPlayerDied(List<Player> players,List<Card> discardPile){
-        for(Player player : players){
+    public void checkIfAPlayerDied(){
+        for(Player player : this.playerList){
             if(player.isDead()){
-                removePlayerCards(player,discardPile);
+                removePlayerCards(player);
             }
         }
     }
 
-    public void removePlayerCards(Player currentPlayer, List<Card> discardPile){
+    public void removePlayerCards(Player currentPlayer){
         for(int cardIndex = 0; cardIndex < currentPlayer.getHand().size(); cardIndex++){
-            discardPile.add(currentPlayer.getCardFromHand(cardIndex));
+            this.discardPile.add(currentPlayer.getCardFromHand(cardIndex));
             currentPlayer.removeCardFromHand(cardIndex);
         }
         for(int cardIndex = 0; cardIndex < currentPlayer.getTable().size(); cardIndex++){
-            discardPile.add(currentPlayer.getCardFromTable(cardIndex));
+            this.discardPile.add(currentPlayer.getCardFromTable(cardIndex));
             currentPlayer.removeCardFromTable(cardIndex);
-        }
-    }
-
-    public void  drawCards(int numberOfCards, Player player){
-        for (int i = 0; i < numberOfCards; i++) {
-            if(cardStack.size()<1){
-                System.out.print("The cards are being shuffled from the discard pile!");
-                refillDeck();
-            }
-            player.addToHand(cardStack.get(cardStack.size()-1));
-            cardStack.remove(cardStack.size()-1);
         }
     }
 }

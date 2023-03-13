@@ -13,21 +13,22 @@ public class Dynamite extends BlueCard {
 
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         if(currentPlayer.hasDynamiteOnTable()){
             System.out.println("You cannot place dynamite, you already have one on the table!");
+            return;
         }
         currentPlayer.addToTable(currentPlayer.getCardFromHand(indexOfPlayedCard));
         currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 
     @Override
-    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer, List<Card> discardPile){
+    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer){
         int chance = rand.nextInt(8);
         Player currentPlayer = playerList.get(indexOfCurrentPlayer);
         if(chance == 0){
-            currentPlayer.setHp(currentPlayer.getHp() - 3);
+            currentPlayer.decrementHp(3);
             System.out.println("\u001B[31mDynamite exploded! You got 3 dmg and you have \u001B[32m"+ currentPlayer.getHp()+" HP.\u001B[0m");
         }
         else{

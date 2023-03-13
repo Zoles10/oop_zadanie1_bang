@@ -11,16 +11,16 @@ public class Bang extends BrownCard {
     }
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard, List<Card> gameDeck, List<Card> discardPile){
+    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
 
         Player currentPlayer = players.get(indexOfCurrentPlayer);
+        Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
+        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         System.out.print("Pick which player to attack, players: \n");
 
-        Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
-
         if(attackedPlayer.hasBarrelOnTable()){
-            for(Card card : currentPlayer.getTable()) {
-                if (card instanceof Barrel && card.didExecute(players, indexOfCurrentPlayer, discardPile)) {
+            for(Card card : attackedPlayer.getTable()) {
+                if (card instanceof Barrel && card.didExecute(players, indexOfCurrentPlayer)) {
                     System.out.print("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
                     return;
                 }
@@ -28,17 +28,14 @@ public class Bang extends BrownCard {
         }
 
         if(attackedPlayer.hasMissedOnHand()){
-            discardPile.add(new Missed());
-            attackedPlayer.removeMissedFromHand(discardPile);
+            attackedPlayer.removeMissedFromHand();
             System.out.println("\u001B[33mThe player used Missed!\u001B[0m");
         }
         else {
-            attackedPlayer.setHp(attackedPlayer.getHp() - 1);
+            attackedPlayer.decrementHp(1);
             System.out.println("\u001B[31mThe player " + attackedPlayer.getName()+ " got hit by Bang, he now has \u001B[32m"+attackedPlayer.getHp()+"HP\u001B[0m");
         }
-
-        discardPile.add(currentPlayer.getCardFromHand(indexOfPlayedCard));
-
-        currentPlayer.removeCardFromHand(indexOfPlayedCard);
+        currentPlayer.addToDiscardPile(playedCard);
+        currentPlayer.removeCardFromHand(playedCard);
     }
 }
