@@ -1,7 +1,7 @@
 package sk.stuba.fei.uim.oop.cards;
 
 import sk.stuba.fei.uim.oop.player.Player;
-import sk.stuba.fei.uim.oop.utility.KeyboardInput;
+import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
 import java.util.List;
 
@@ -16,8 +16,7 @@ abstract public class Card {
         this.name = name;
     }
 
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard){
-    }
+    public abstract void play(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard);
 
     protected Player choosePlayerToAttack(List<Player> players, int indexOfCurrentPlayer ){
         for(int playerIndex = 0; playerIndex < players.size(); playerIndex++){
@@ -27,14 +26,11 @@ abstract public class Card {
         }
         int attackedPlayerIndex = -1;
         while(attackedPlayerIndex < 0 || attackedPlayerIndex > players.size() -1 || attackedPlayerIndex == indexOfCurrentPlayer || players.get(attackedPlayerIndex).isDead() ) {
-            attackedPlayerIndex = KeyboardInput.readInt("Pick a player") - 1;
+            attackedPlayerIndex = ZKlavesnice.readInt("Pick a player: ") - 1;
         }
         return players.get(attackedPlayerIndex);
     }
 
-    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer){
-        return true;
-    }
 
     public String getName(){
         return this.name;

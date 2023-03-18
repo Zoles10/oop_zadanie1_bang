@@ -1,16 +1,16 @@
-package sk.stuba.fei.uim.oop.cards;
+package sk.stuba.fei.uim.oop.cards.browncards;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.util.List;
 
-public class Indians extends BrownCard{
+public class Indians extends BrownCard {
     public Indians() {
         super("Indians");
     }
 
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
+    public void play(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         for(int attackedPlayerIndex = 0; attackedPlayerIndex < players.size(); attackedPlayerIndex++){
             Player attackedPlayer = players.get(attackedPlayerIndex);

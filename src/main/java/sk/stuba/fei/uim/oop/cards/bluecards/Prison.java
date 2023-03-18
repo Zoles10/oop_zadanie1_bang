@@ -1,10 +1,11 @@
-package sk.stuba.fei.uim.oop.cards;
+package sk.stuba.fei.uim.oop.cards.bluecards;
+import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.util.List;
 import java.util.Random;
 
-public class Prison extends BlueCard{
+public class Prison extends BlueCard {
     private Random rand;
     public Prison(){
         super("Prison");
@@ -12,7 +13,7 @@ public class Prison extends BlueCard{
     }
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard) {
+    public void play(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard) {
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         System.out.print("Pick which player to imprison, players: \n");
@@ -21,25 +22,26 @@ public class Prison extends BlueCard{
             System.out.println("Cannot place Prison on the players table, he is already imprisoned!");
             return;
         }
+        attackedPlayer.setIsInPrison(true);
         attackedPlayer.addToTable(playedCard);
         currentPlayer.removeCardFromHand(playedCard);
-        attackedPlayer.setIsInPrison(true);
+
     }
 
     @Override
-    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer){
+    public boolean didExecute(List<Player> playerList,Card playedCard ,int indexOfCurrentPlayer){
         int chance = rand.nextInt(4);
         Player currentPlayer = playerList.get(indexOfCurrentPlayer);
         if(chance == 0){
-            System.out.println("\u001B[33mYou escape prison!\u001B[0m");
             currentPlayer.setIsInPrison(false);
-            return true;
+            System.out.println("\u001B[33mYou escape prison!\u001B[0m");
+
         }
         else {
             currentPlayer.setIsInPrison(true);
-            System.out.println("\u001B[36m--------------PLAYER TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
             System.out.println("\u001B[31mYou didnt escape prison and skip a turn\u001B[0m");
-            return false;
         }
+        currentPlayer.addToDiscardPile(playedCard);
+        return true;
     }
 }

@@ -1,10 +1,11 @@
-package sk.stuba.fei.uim.oop.cards;
+package sk.stuba.fei.uim.oop.cards.bluecards;
+import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.player.Player;
 import java.util.Random;
 
 import java.util.List;
 
-public class Barrel extends BlueCard{
+public class Barrel extends BlueCard {
 
     Random rand;
 
@@ -14,7 +15,7 @@ public class Barrel extends BlueCard{
     }
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
+    public void play(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         if(currentPlayer.hasBarrelOnTable()){
@@ -27,7 +28,7 @@ public class Barrel extends BlueCard{
     }
 
     @Override
-    public boolean didExecute(List<Player> playerList, int indexOfCurrentPlayer){
+    public boolean didExecute(List<Player> playerList, Card playedCard,int indexOfCurrentPlayer){
         int chance = rand.nextInt(4);
         return chance == 0;
     }

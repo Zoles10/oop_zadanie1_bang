@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop.cards;
+package sk.stuba.fei.uim.oop.cards.browncards;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
@@ -6,7 +6,7 @@ import java.util.Random;
 
 import java.util.List;
 
-public class CatBalou extends BrownCard{
+public class CatBalou extends BrownCard {
     Random rand;
     public CatBalou() {
         super( "CatBalou");
@@ -14,7 +14,7 @@ public class CatBalou extends BrownCard{
     }
 
     @Override
-    public void useEffect(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard){
+    public void play(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         System.out.print("Choose a player to discard his cards, avaible players: \n");
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
