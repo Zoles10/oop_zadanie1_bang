@@ -1,10 +1,7 @@
 package sk.stuba.fei.uim.oop.player;
 import sk.stuba.fei.uim.oop.gameboard.Gameboard;
 import sk.stuba.fei.uim.oop.cards.*;
-import sk.stuba.fei.uim.oop.cards.bluecards.Barrel;
-import sk.stuba.fei.uim.oop.cards.bluecards.BlueCard;
-import sk.stuba.fei.uim.oop.cards.bluecards.Dynamite;
-import sk.stuba.fei.uim.oop.cards.bluecards.Prison;
+import sk.stuba.fei.uim.oop.cards.bluecards.*;
 import sk.stuba.fei.uim.oop.cards.browncards.Bang;
 import sk.stuba.fei.uim.oop.cards.browncards.Missed;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
@@ -12,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    private String name;
+    private final String name;
     private int hp;
-    private List<Card> hand;
-    private List<Card> table;
+    private final List<Card> hand;
+    private final List<Card> table;
     private boolean isInPrison;
-    private Gameboard gameboard;
+    private final Gameboard gameboard;
 
     public Player(String name, Gameboard gameboard) {
         this.name = name;
@@ -40,7 +37,6 @@ public class Player {
     public void decrementHp(int num){
         this.hp = this.hp - num;
     }
-
     public List<Card> getHand() {
         return this.hand;
     }
@@ -58,9 +54,6 @@ public class Player {
     }
     public void removeCardFromHand(Card card) {
         this.hand.remove(card);
-    }
-    public void addToHand(Card card) {
-        this.hand.add(card);
     }
     public void removeCardFromTable(int i) {
         this.table.remove(i);
@@ -152,7 +145,6 @@ public class Player {
         }
         return false;
     }
-
     public void removeBangFromHand() {
         for (Card card : this.hand) {
             if (Bang.class.isInstance(card)) {
@@ -163,7 +155,6 @@ public class Player {
             }
         }
     }
-
     public void removeMissedFromHand() {
         for (Card card : this.hand) {
             if (Missed.class.isInstance(card)) {
@@ -174,18 +165,20 @@ public class Player {
             }
         }
     }
-
-
     public void checkTable(int currentPlayerIndex, List<Player> playerList){
         this.getTable().removeIf(card -> ((BlueCard) card).didExecute(playerList, card,currentPlayerIndex) && card.getClass() != Barrel.class);
     }
-
     public boolean playCards(List<Player> playerList,int currentPlayerIndex){
         while(getHand().size() > 0){
 
             if(!checkIfGameInProgress(playerList)){
                 return false;
             }
+
+            if(this.hp < 1){
+                return true;
+            }
+
             int cardPlayedIndex = -2;
             while(cardPlayedIndex < -1 || cardPlayedIndex > hand.size() - 1 ) {
                 cardPlayedIndex = ZKlavesnice.readInt("Pick which card to play (Enter 0 to stop): ") - 1;

@@ -35,15 +35,10 @@ public class Dynamite extends BlueCard {
         else{
             int indexOfNextPlayer = indexOfCurrentPlayer == 0 ? playerList.size()-1 : indexOfCurrentPlayer-1;
             while(playerList.get(indexOfNextPlayer).isDead()){
-                if(indexOfNextPlayer == 0){
-                    indexOfNextPlayer = playerList.size()-1;
-                }
-                else{
-                    indexOfNextPlayer--;
-                }
+                indexOfNextPlayer = indexOfCurrentPlayer == 0 ? playerList.size()-1 : indexOfCurrentPlayer - 1;
             }
             System.out.println("\u001B[33mDynamite didnt explode and passed to "+ playerList.get(indexOfNextPlayer).getName()+"\u001B[0m");
-            playerList.get(indexOfNextPlayer).addToTable(new Dynamite());
+            playerList.get(indexOfNextPlayer).addToTable(playedCard);
         }
         return true;
     }

@@ -11,8 +11,8 @@ import java.util.List;
 public class Game {
     private boolean gameInProgress;
     private int playerCount;
-    private List<Player> playerList;
-    private Gameboard gameboard;
+    private final List<Player> playerList;
+    private final Gameboard gameboard;
 
     public Game() {
         this.gameInProgress = true;
@@ -33,6 +33,10 @@ public class Game {
                 }
                 System.out.println("\u001B[36m--------------PLAYER "+(currentPlayerIndex+1) + " TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
                 currentPlayer.checkTable(currentPlayerIndex, playerList);
+                if(currentPlayer.isDead()){
+                    currentPlayerIndex++;
+                    continue;
+                }
                 if(currentPlayer.getIsInPrison()){
                     currentPlayer.status();
                     currentPlayerIndex++;
