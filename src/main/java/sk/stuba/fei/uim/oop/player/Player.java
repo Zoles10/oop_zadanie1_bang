@@ -16,8 +16,6 @@ public class Player {
     private int hp;
     private List<Card> hand;
     private List<Card> table;
-//    private List<Card> deck;
-//    private List<Card> discardPile;
     private boolean isInPrison;
     private Gameboard gameboard;
 
@@ -28,15 +26,13 @@ public class Player {
         hand = new ArrayList<>();
         table = new ArrayList<>();
         this.gameboard = gameboard;
-//        this.deck = deck;
-//        this.discardPile = discardPile;
     }
 
     public String getName() {
         return this.name;
     }
     public int getHp() {
-        return this.hp;
+        return this.hp < 0 ? 0 : this.hp;
     }
     public void incrementHp(int num){
         this.hp = this.hp + num;
@@ -252,30 +248,6 @@ public class Player {
     public boolean isDead(){
         return this.hp < 1;
     }
-
-//    public void  drawCards(int numberOfCards){
-//        for (int i = 0; i < numberOfCards; i++) {
-//            if(deck.size()<1){
-//                System.out.print("The cards are being shuffled from the discard pile!");
-//                refillDeck();
-//            }
-//            addToHand(deck.get(deck.size()-1));
-//            deck.remove(deck.size()-1);
-//        }
-//    }
-//
-//    public void refillDeck(){
-//        List<Card> temp = new ArrayList<>(deck);
-//        deck.clear();
-//        deck.addAll(discardPile);
-//        discardPile.clear();
-//        discardPile.addAll(temp);
-//        Collections.shuffle(deck);
-//    }
-//
-//    public void addToDiscardPile(Card card){
-//        this.discardPile.add(card);
-//    }
 
     public boolean defendWithBarrel(List<Player> players, int indexOfCurrentPlayer){
         if(this.hasBarrelOnTable()){

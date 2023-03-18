@@ -12,7 +12,6 @@ public class Dynamite extends BlueCard {
         rand = new Random();
     }
 
-
     @Override
     public void play(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);

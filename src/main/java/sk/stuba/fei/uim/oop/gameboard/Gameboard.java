@@ -54,9 +54,9 @@ public class Gameboard {
         if(deck.size()<1){
             refillDeck();
         }
-            Card card  = deck.get(deck.size()-1);
-            deck.remove(card);
-            return card;
+        Card card  = deck.get(deck.size()-1);
+        deck.remove(card);
+        return card;
     }
 
 
@@ -67,6 +67,7 @@ public class Gameboard {
         discardPile.clear();
         discardPile.addAll(temp);
         Collections.shuffle(deck);
+        System.out.println("Refilling cards");
     }
 
     public void addToDiscardPile(Card card){
