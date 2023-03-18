@@ -199,6 +199,10 @@ public class Player {
 
     public void drawCards(int num){
         for(int i = 0;i < num;i++){
+            if(gameboard.getDeck().size() == 0 && gameboard.getDiscardPile().size()==0){
+                System.out.println(i == 0 ? "There are no card to be drawn, sorry!" : "You could olny draw "+i+" card, there are no more left!");
+                return;
+            }
             this.hand.add(gameboard.drawCard());
         }
     }

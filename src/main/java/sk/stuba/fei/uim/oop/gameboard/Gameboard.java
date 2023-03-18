@@ -5,7 +5,6 @@ import sk.stuba.fei.uim.oop.cards.bluecards.Barrel;
 import sk.stuba.fei.uim.oop.cards.bluecards.Dynamite;
 import sk.stuba.fei.uim.oop.cards.bluecards.Prison;
 import sk.stuba.fei.uim.oop.cards.browncards.*;
-import sk.stuba.fei.uim.oop.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,8 @@ import java.util.List;
 import java.util.Collections;
 
 public class Gameboard {
-    private List<Card> deck;
-    private List<Card> discardPile;
+    private final List<Card> deck;
+    private final List<Card> discardPile;
 
     public Gameboard(){
         this.discardPile = new ArrayList<>();
@@ -23,8 +22,15 @@ public class Gameboard {
 
     }
 
+    public List<Card> getDeck(){
+        return this.deck;
+    }
+
+    public List<Card> getDiscardPile(){
+        return this.discardPile;
+    }
     public void createDeck() {
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             deck.add(new Bang());
         }
         for (int i = 0; i < 15; i++) {
@@ -51,10 +57,10 @@ public class Gameboard {
     }
 
     public Card drawCard(){
-        if(deck.size()<1){
+        if(deck.size()==0 && discardPile.size()!=0){
             refillDeck();
         }
-        Card card  = deck.get(deck.size()-1);
+        Card card  = deck.get(0);
         deck.remove(card);
         return card;
     }
@@ -67,10 +73,14 @@ public class Gameboard {
         discardPile.clear();
         discardPile.addAll(temp);
         Collections.shuffle(deck);
-        System.out.println("Refilling cards");
+        System.out.println("Refilling cards from discard pile!");
     }
+
+
 
     public void addToDiscardPile(Card card){
         this.discardPile.add(card);
     }
+
+
 }
