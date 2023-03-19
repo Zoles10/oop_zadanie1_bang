@@ -46,7 +46,7 @@ public class Player {
     public Card getCardFromHand(int i) {
         return this.hand.get(i);
     }
-    public Card getCardFromTable(int i) {
+    public BlueCard getCardFromTable(int i) {
         return this.table.get(i);
     }
     public void removeCardFromHand(int i) {
@@ -163,7 +163,7 @@ public class Player {
         }
     }
 
-    public void removeCardFromTable(Card card) {
+    public void removeCardFromTable(BlueCard card) {
         this.table.remove(card);
     }
     public void checkTable(int currentPlayerIndex, List<Player> playerList){

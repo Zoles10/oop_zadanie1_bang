@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop.cards.browncards;
 import sk.stuba.fei.uim.oop.cards.Card;
+import sk.stuba.fei.uim.oop.cards.bluecards.BlueCard;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
@@ -30,7 +31,7 @@ public class CatBalou extends BrownCard {
                 randomIndex = rand.nextInt(attackedPlayer.getHand().size());
                 Card discardCard = attackedPlayer.getCardFromHand(randomIndex);
                 attackedPlayer.addToDiscardPile(discardCard);
-                attackedPlayer.removeCardFromTable(discardCard);
+                attackedPlayer.removeCardFromHand(discardCard);
                 removeAndDiscard(currentPlayer,playedCard);
             }
             else{
@@ -40,7 +41,7 @@ public class CatBalou extends BrownCard {
         else{
             if(attackedPlayer.getTable().size()>0){
                 randomIndex = rand.nextInt(attackedPlayer.getTable().size());
-                Card discardCard = attackedPlayer.getCardFromTable(randomIndex);
+                BlueCard discardCard = attackedPlayer.getCardFromTable(randomIndex);
                 attackedPlayer.addToDiscardPile(discardCard);
                 attackedPlayer.removeCardFromTable(discardCard);
                 removeAndDiscard(currentPlayer,playedCard);
