@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Prison extends BlueCard {
-    private Random rand;
+    private final Random rand;
     public Prison(){
         super("Prison");
         rand = new Random();
@@ -23,9 +23,8 @@ public class Prison extends BlueCard {
             return;
         }
         attackedPlayer.setIsInPrison(true);
-        attackedPlayer.addToTable(playedCard);
+        attackedPlayer.addToTable(this);
         currentPlayer.removeCardFromHand(playedCard);
-
     }
 
     @Override

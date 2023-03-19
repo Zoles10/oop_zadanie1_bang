@@ -16,7 +16,6 @@ public class Beer extends BrownCard {
         Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         currentPlayer.incrementHp(1);
         System.out.println("\u001B[32mYou played Beer and healed one HP, you now have "+currentPlayer.getHp()+"\u001B[0m");
-        currentPlayer.addToDiscardPile(playedCard);
-        currentPlayer.removeCardFromHand(playedCard);
+        removeAndDiscard(currentPlayer,playedCard);
     }
 }

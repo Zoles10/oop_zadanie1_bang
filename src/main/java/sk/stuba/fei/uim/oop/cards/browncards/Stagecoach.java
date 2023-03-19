@@ -14,8 +14,7 @@ public class Stagecoach extends BrownCard {
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         currentPlayer.drawCards(2);
-        currentPlayer.addToDiscardPile(playedCard);
-        currentPlayer.removeCardFromHand(playedCard);
+        removeAndDiscard(currentPlayer,playedCard);
     }
 
 

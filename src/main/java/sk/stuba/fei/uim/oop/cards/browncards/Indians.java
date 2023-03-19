@@ -1,4 +1,5 @@
 package sk.stuba.fei.uim.oop.cards.browncards;
+import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class Indians extends BrownCard {
     @Override
     public void play(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
+        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         for(int attackedPlayerIndex = 0; attackedPlayerIndex < players.size(); attackedPlayerIndex++){
             Player attackedPlayer = players.get(attackedPlayerIndex);
             if(attackedPlayerIndex != indexOfCurrentPlayer && !players.get(attackedPlayerIndex).isDead()) {
@@ -25,7 +27,6 @@ public class Indians extends BrownCard {
                 }
             }
         }
-        currentPlayer.addToDiscardPile(currentPlayer.getCardFromHand(indexOfPlayedCard));
-        currentPlayer.removeCardFromHand(indexOfPlayedCard);
+        removeAndDiscard(currentPlayer,playedCard);
     }
 }

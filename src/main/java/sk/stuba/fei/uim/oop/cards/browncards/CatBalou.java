@@ -1,4 +1,5 @@
 package sk.stuba.fei.uim.oop.cards.browncards;
+import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
@@ -18,32 +19,36 @@ public class CatBalou extends BrownCard {
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         System.out.print("Choose a player to discard his cards, avaible players: \n");
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
+        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         int discardFlag = 0;
         while(discardFlag < 1 || discardFlag > 2 ){
             discardFlag = KeyboardInput.readInt("Choose where to discard from:\n1.Discard from hand\n2. Discard from table\n");
         }
         int randomIndex;
-        if(discardFlag==1){
-            if(attackedPlayer.getHand().size() > 0 ) {
+        if(discardFlag == 1 ){
+            if(attackedPlayer.getHand().size()>0){
                 randomIndex = rand.nextInt(attackedPlayer.getHand().size());
-                attackedPlayer.addToDiscardPile(attackedPlayer.getCardFromHand(randomIndex));
-                attackedPlayer.removeCardFromHand(randomIndex);
-                currentPlayer.addToDiscardPile(currentPlayer.getCardFromHand(indexOfPlayedCard));
-                currentPlayer.removeCardFromHand(indexOfPlayedCard);
-                return;
+                Card discardCard = attackedPlayer.getCardFromHand(randomIndex);
+                attackedPlayer.addToDiscardPile(discardCard);
+                attackedPlayer.removeCardFromTable(discardCard);
+                removeAndDiscard(currentPlayer,playedCard);
             }
-                System.out.println("Player has no card in hand");
+            else{
+                System.out.println("Player has no cards in hand");
+            }
         }
         else{
-            if(attackedPlayer.getTable().size() > 0) {
+            if(attackedPlayer.getTable().size()>0){
                 randomIndex = rand.nextInt(attackedPlayer.getTable().size());
-                attackedPlayer.addToDiscardPile(attackedPlayer.getCardFromTable(randomIndex));
-                attackedPlayer.removeCardFromTable(randomIndex);
-                currentPlayer.addToDiscardPile(currentPlayer.getCardFromHand(indexOfPlayedCard));
-                currentPlayer.removeCardFromHand(indexOfPlayedCard);
-                return;
+                Card discardCard = attackedPlayer.getCardFromTable(randomIndex);
+                attackedPlayer.addToDiscardPile(discardCard);
+                attackedPlayer.removeCardFromTable(discardCard);
+                removeAndDiscard(currentPlayer,playedCard);
             }
-            System.out.println("Player has no card on table");
+            else{
+                System.out.println("Player has no cards on table");
+            }
         }
+
     }
 }

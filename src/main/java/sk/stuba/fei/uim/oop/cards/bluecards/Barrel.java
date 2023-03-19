@@ -17,13 +17,13 @@ public class Barrel extends BlueCard {
     @Override
     public void play(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
+        //Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         if(currentPlayer.hasBarrelOnTable()){
             System.out.println("You cannot play Barrel, you are have one on the table!");
             return;
         }
-        currentPlayer.addToTable(playedCard);
-        currentPlayer.removeCardFromHand(playedCard);
+        currentPlayer.addToTable(this);
+        currentPlayer.removeCardFromHand(this);
 
     }
 

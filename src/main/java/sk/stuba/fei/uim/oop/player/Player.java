@@ -12,7 +12,7 @@ public class Player {
     private final String name;
     private int hp;
     private final List<Card> hand;
-    private final List<Card> table;
+    private final List<BlueCard> table;
     private boolean isInPrison;
     private final Gameboard gameboard;
 
@@ -40,7 +40,7 @@ public class Player {
     public List<Card> getHand() {
         return this.hand;
     }
-    public List<Card> getTable(){
+    public List<BlueCard> getTable(){
         return this.table;
     }
     public Card getCardFromHand(int i) {
@@ -55,10 +55,7 @@ public class Player {
     public void removeCardFromHand(Card card) {
         this.hand.remove(card);
     }
-    public void removeCardFromTable(int i) {
-        this.table.remove(i);
-    }
-    public void addToTable(Card card) {
+    public void addToTable(BlueCard card) {
         this.table.add(card);
     }
     public void setIsInPrison(boolean value){
@@ -107,7 +104,7 @@ public class Player {
 
     public boolean hasMissedOnHand() {
         for (Card card : this.hand) {
-            if (Missed.class.isInstance(card)) {
+            if (card instanceof Missed) {
                 return true;
             }
         }
@@ -115,7 +112,7 @@ public class Player {
     }
     public boolean hasBangOnHand() {
         for (Card card : this.hand) {
-            if (Bang.class.isInstance(card)) {
+            if (card instanceof Bang) {
                 return true;
             }
         }
@@ -123,7 +120,7 @@ public class Player {
     }
     public boolean hasPrisonOnTable() {
         for (Card card : this.table) {
-            if (Prison.class.isInstance(card)) {
+            if (card instanceof Prison) {
                 return true;
             }
         }
@@ -131,7 +128,7 @@ public class Player {
     }
     public boolean hasDynamiteOnTable() {
         for (Card card : this.table) {
-            if (Dynamite.class.isInstance(card)) {
+            if (card instanceof Dynamite) {
                 return true;
             }
         }
@@ -139,7 +136,7 @@ public class Player {
     }
     public boolean hasBarrelOnTable() {
         for (Card card : this.table) {
-            if (Barrel.class.isInstance(card)) {
+            if (card instanceof Barrel) {
                 return true;
             }
         }
@@ -147,7 +144,7 @@ public class Player {
     }
     public void removeBangFromHand() {
         for (Card card : this.hand) {
-            if (Bang.class.isInstance(card)) {
+            if (card instanceof Bang){
                 this.hand.remove(card);
                 gameboard.addToDiscardPile(card);
                 break;
@@ -157,7 +154,7 @@ public class Player {
     }
     public void removeMissedFromHand() {
         for (Card card : this.hand) {
-            if (Missed.class.isInstance(card)) {
+            if (card instanceof Missed) {
                 this.hand.remove(card);
                 gameboard.addToDiscardPile(card);
                 break;
@@ -165,27 +162,39 @@ public class Player {
             }
         }
     }
+
+    public void removeCardFromTable(Card card) {
+        this.table.remove(card);
+    }
     public void checkTable(int currentPlayerIndex, List<Player> playerList){
-        this.getTable().removeIf(card -> ((BlueCard) card).didExecute(playerList, card,currentPlayerIndex) && card.getClass() != Barrel.class);
+        for(BlueCard card : getTable()){
+            if(card instanceof Dynamite && card.didExecute(playerList, card,currentPlayerIndex)){
+                this.table.remove(card);
+                break;
+            }
+        }
+        for(BlueCard card : getTable()){
+            if(card instanceof Prison && card.didExecute(playerList, card,currentPlayerIndex)){
+                this.table.remove(card);
+                break;
+            }
+        }
     }
     public boolean playCards(List<Player> playerList,int currentPlayerIndex){
         while(getHand().size() > 0){
-
-            if(!checkIfGameInProgress(playerList)){
+            if(gameNotInProgress(playerList)){
                 return false;
             }
-
             if(this.hp < 1){
                 return true;
             }
-
             int cardPlayedIndex = -2;
             while(cardPlayedIndex < -1 || cardPlayedIndex > hand.size() - 1 ) {
                 cardPlayedIndex = ZKlavesnice.readInt("Pick which card to play (Enter 0 to stop): ") - 1;
             }
             if (cardPlayedIndex != -1) {
                 getCardFromHand(cardPlayedIndex).play(playerList, currentPlayerIndex, cardPlayedIndex);
-                if(!checkIfGameInProgress(playerList)){
+                if(gameNotInProgress(playerList)){
                     return false;
                 }
             }
@@ -211,7 +220,7 @@ public class Player {
         gameboard.addToDiscardPile(card);
     }
 
-    private boolean checkIfGameInProgress(List<Player> playerList){
+    private boolean gameNotInProgress(List<Player> playerList){
         int playersAlive = 0;
         for(Player player : playerList){
             if(!player.isDead()){
@@ -222,12 +231,12 @@ public class Player {
             for(Player player : playerList){
                 if(!player.isDead()){
                     System.out.println("\u001B[32m \u001B[1mThe winner is "+player.getName()+"\u001B[0m");
-                    return false;
+                    return true;
                 }
             }
 
         }
-        return true;
+        return false;
     }
 
     public void discardCards(){
@@ -248,8 +257,8 @@ public class Player {
 
     public boolean defendWithBarrel(List<Player> players, int indexOfCurrentPlayer){
         if(this.hasBarrelOnTable()){
-            for(Card card : this.getTable()) {
-                if (card instanceof Barrel && ((BlueCard) card).didExecute(players, card,indexOfCurrentPlayer)) {
+            for(BlueCard card : this.getTable()) {
+                if (card instanceof Barrel && card.didExecute(players, card,indexOfCurrentPlayer)) {
                     System.out.print("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
                     return true;
                 }

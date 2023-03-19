@@ -1,14 +1,11 @@
 package sk.stuba.fei.uim.oop.gameboard;
 
 import sk.stuba.fei.uim.oop.cards.Card;
-import sk.stuba.fei.uim.oop.cards.bluecards.Barrel;
-import sk.stuba.fei.uim.oop.cards.bluecards.Dynamite;
-import sk.stuba.fei.uim.oop.cards.bluecards.Prison;
+import sk.stuba.fei.uim.oop.cards.bluecards.*;
 import sk.stuba.fei.uim.oop.cards.browncards.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.Collections;
 
 public class Gameboard {
@@ -30,7 +27,7 @@ public class Gameboard {
         return this.discardPile;
     }
     public void createDeck() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             deck.add(new Bang());
         }
         for (int i = 0; i < 15; i++) {

@@ -19,7 +19,7 @@ public class Dynamite extends BlueCard {
             System.out.println("You cannot place dynamite, you already have one on the table!");
             return;
         }
-        currentPlayer.addToTable(currentPlayer.getCardFromHand(indexOfPlayedCard));
+        currentPlayer.addToTable(this);
         currentPlayer.removeCardFromHand(indexOfPlayedCard);
     }
 
@@ -35,10 +35,10 @@ public class Dynamite extends BlueCard {
         else{
             int indexOfNextPlayer = indexOfCurrentPlayer == 0 ? playerList.size()-1 : indexOfCurrentPlayer-1;
             while(playerList.get(indexOfNextPlayer).isDead()){
-                indexOfNextPlayer = indexOfCurrentPlayer == 0 ? playerList.size()-1 : indexOfCurrentPlayer - 1;
+                indexOfNextPlayer = indexOfNextPlayer == 0 ? playerList.size()-1 : indexOfNextPlayer - 1;
             }
             System.out.println("\u001B[33mDynamite didnt explode and passed to "+ playerList.get(indexOfNextPlayer).getName()+"\u001B[0m");
-            playerList.get(indexOfNextPlayer).addToTable(playedCard);
+            playerList.get(indexOfNextPlayer).addToTable(this);
         }
         return true;
     }

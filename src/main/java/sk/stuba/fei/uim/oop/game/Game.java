@@ -1,4 +1,5 @@
 package sk.stuba.fei.uim.oop.game;
+import sk.stuba.fei.uim.oop.cards.bluecards.BlueCard;
 import sk.stuba.fei.uim.oop.gameboard.Gameboard;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.cards.*;
@@ -84,7 +85,7 @@ public class Game {
             handIterator.remove();
         }
 
-        Iterator<Card> tableIterator = currentPlayer.getTable().iterator();
+        Iterator<BlueCard> tableIterator = currentPlayer.getTable().iterator();
         while(tableIterator.hasNext()) {
             Card card = tableIterator.next();
             currentPlayer.addToDiscardPile(card);

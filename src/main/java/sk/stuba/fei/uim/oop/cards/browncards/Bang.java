@@ -16,8 +16,7 @@ public class Bang extends BrownCard {
         Player currentPlayer = players.get(indexOfCurrentPlayer);
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
         Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
-        currentPlayer.addToDiscardPile(playedCard);
-        currentPlayer.removeCardFromHand(playedCard);
+        removeAndDiscard(currentPlayer,playedCard);
         System.out.print("Pick which player to attack, players: \n");
 
         if(attackedPlayer.defendWithBarrel(players, indexOfCurrentPlayer)){
