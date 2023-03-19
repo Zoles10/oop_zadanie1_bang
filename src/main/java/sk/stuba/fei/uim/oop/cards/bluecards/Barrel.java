@@ -1,5 +1,4 @@
 package sk.stuba.fei.uim.oop.cards.bluecards;
-import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.player.Player;
 import java.util.Random;
 
@@ -15,9 +14,8 @@ public class Barrel extends BlueCard {
     }
 
     @Override
-    public void play(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
+    public void play(List<Player> players, int indexOfCurrentPlayer){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        //Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         if(currentPlayer.hasBarrelOnTable()){
             System.out.println("You cannot play Barrel, you are have one on the table!");
             return;
@@ -28,7 +26,7 @@ public class Barrel extends BlueCard {
     }
 
     @Override
-    public boolean didExecute(List<Player> playerList, Card playedCard,int indexOfCurrentPlayer){
+    public boolean didExecute(List<Player> playerList,int indexOfCurrentPlayer){
         int chance = rand.nextInt(4);
         return chance == 0;
     }

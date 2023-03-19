@@ -1,5 +1,4 @@
 package sk.stuba.fei.uim.oop.cards.bluecards;
-import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.util.List;
@@ -13,9 +12,8 @@ public class Prison extends BlueCard {
     }
 
     @Override
-    public void play(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard) {
+    public void play(List<Player> players, int indexOfCurrentPlayer) {
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         System.out.print("Pick which player to imprison, players: \n");
         Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
         if(attackedPlayer.hasPrisonOnTable()){
@@ -24,11 +22,11 @@ public class Prison extends BlueCard {
         }
         attackedPlayer.setIsInPrison(true);
         attackedPlayer.addToTable(this);
-        currentPlayer.removeCardFromHand(playedCard);
+        currentPlayer.removeCardFromHand(this);
     }
 
     @Override
-    public boolean didExecute(List<Player> playerList,Card playedCard ,int indexOfCurrentPlayer){
+    public boolean didExecute(List<Player> playerList,int indexOfCurrentPlayer){
         int chance = rand.nextInt(4);
         Player currentPlayer = playerList.get(indexOfCurrentPlayer);
         if(chance == 0){
@@ -40,7 +38,7 @@ public class Prison extends BlueCard {
             currentPlayer.setIsInPrison(true);
             System.out.println("\u001B[31mYou didnt escape prison and skip a turn\u001B[0m");
         }
-        currentPlayer.addToDiscardPile(playedCard);
+        currentPlayer.addToDiscardPile(this);
         return true;
     }
 }

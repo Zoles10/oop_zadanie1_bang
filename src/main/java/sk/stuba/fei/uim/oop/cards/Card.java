@@ -7,16 +7,13 @@ import java.util.List;
 
 abstract public class Card {
 
-    private String name;
-
-    public Card(){
-    }
+    private final String name;
 
     public Card(String name) {
         this.name = name;
     }
 
-    public abstract void play(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard);
+    public abstract void play(List<Player> players, int indexOfCurrentPlayer);
 
     protected Player choosePlayerToAttack(List<Player> players, int indexOfCurrentPlayer ){
         for(int playerIndex = 0; playerIndex < players.size(); playerIndex++){

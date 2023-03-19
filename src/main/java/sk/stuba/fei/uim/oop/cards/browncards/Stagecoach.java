@@ -1,5 +1,4 @@
 package sk.stuba.fei.uim.oop.cards.browncards;
-import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.util.List;
@@ -10,12 +9,9 @@ public class Stagecoach extends BrownCard {
     }
 
     @Override
-    public void play(List<Player> players, int indexOfCurrentPlayer,int indexOfPlayedCard){
+    public void play(List<Player> players, int indexOfCurrentPlayer){
         Player currentPlayer = players.get(indexOfCurrentPlayer);
-        Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         currentPlayer.drawCards(2);
-        removeAndDiscard(currentPlayer,playedCard);
+        removeAndDiscard(currentPlayer,this);
     }
-
-
 }

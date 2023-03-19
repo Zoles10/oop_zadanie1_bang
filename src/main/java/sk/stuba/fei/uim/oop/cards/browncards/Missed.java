@@ -10,7 +10,7 @@ public class Missed extends BrownCard {
 
 
     @Override
-    public void play(List<Player> players, int indexOfCurrentPlayer, int indexOfPlayedCard) {
+    public void play(List<Player> players, int indexOfCurrentPlayer) {
         System.out.println("You cannot play Missed!");
     }
 }

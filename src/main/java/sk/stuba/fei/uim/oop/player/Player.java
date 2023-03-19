@@ -169,13 +169,13 @@ public class Player {
 
     public void checkTable(int currentPlayerIndex, List<Player> playerList){
         for(BlueCard card : getTable()){
-            if(card instanceof Dynamite && card.didExecute(playerList, card,currentPlayerIndex)){
+            if(card instanceof Dynamite && card.didExecute(playerList,currentPlayerIndex)){
                 this.table.remove(card);
                 break;
             }
         }
         for(BlueCard card : getTable()){
-            if(card instanceof Prison && card.didExecute(playerList, card,currentPlayerIndex)){
+            if(card instanceof Prison && card.didExecute(playerList,currentPlayerIndex)){
                 this.table.remove(card);
                 break;
             }
@@ -194,7 +194,7 @@ public class Player {
                 cardPlayedIndex = ZKlavesnice.readInt("Pick which card to play (Enter 0 to stop): ") - 1;
             }
             if (cardPlayedIndex != -1) {
-                getCardFromHand(cardPlayedIndex).play(playerList, currentPlayerIndex, cardPlayedIndex);
+                getCardFromHand(cardPlayedIndex).play(playerList, currentPlayerIndex);
                 if(gameNotInProgress(playerList)){
                     return false;
                 }
@@ -259,7 +259,7 @@ public class Player {
     public boolean defendWithBarrel(List<Player> players, int indexOfCurrentPlayer){
         if(this.hasBarrelOnTable()){
             for(BlueCard card : this.getTable()) {
-                if (card instanceof Barrel && card.didExecute(players, card,indexOfCurrentPlayer)) {
+                if (card instanceof Barrel && card.didExecute(players,indexOfCurrentPlayer)) {
                     System.out.print("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
                     return true;
                 }
