@@ -1,6 +1,6 @@
 package sk.stuba.fei.uim.oop.game;
 import sk.stuba.fei.uim.oop.cards.bluecards.BlueCard;
-import sk.stuba.fei.uim.oop.gameboard.Gameboard;
+import sk.stuba.fei.uim.oop.gameboard.GameBoard;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.cards.*;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
@@ -13,12 +13,12 @@ public class Game {
     private boolean gameInProgress;
     private int playerCount;
     private final List<Player> playerList;
-    private final Gameboard gameboard;
+    private final GameBoard gameBoard;
 
     public Game() {
         this.gameInProgress = true;
         this.playerList = new ArrayList<>();
-        this.gameboard= new Gameboard();
+        this.gameBoard= new GameBoard();
         playGame();
     }
 
@@ -64,7 +64,7 @@ public class Game {
         }
         for (int i = 0; i < playerCount; i++) {
             String name = ZKlavesnice.readString("Enter name of Player: " + (i + 1) );
-            playerList.add(new Player(name,gameboard));
+            playerList.add(new Player(name,gameBoard));
             playerList.get(i).drawCards(4);
         }
     }

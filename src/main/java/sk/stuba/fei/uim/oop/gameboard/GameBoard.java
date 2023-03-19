@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
-public class Gameboard {
+public class GameBoard {
     private final List<Card> deck;
     private final List<Card> discardPile;
 
-    public Gameboard(){
+    public GameBoard(){
         this.discardPile = new ArrayList<>();
         this.deck = new ArrayList<>();
         createDeck();

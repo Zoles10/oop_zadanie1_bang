@@ -1,5 +1,5 @@
 package sk.stuba.fei.uim.oop.player;
-import sk.stuba.fei.uim.oop.gameboard.Gameboard;
+import sk.stuba.fei.uim.oop.gameboard.GameBoard;
 import sk.stuba.fei.uim.oop.cards.*;
 import sk.stuba.fei.uim.oop.cards.bluecards.*;
 import sk.stuba.fei.uim.oop.cards.browncards.Bang;
@@ -14,22 +14,22 @@ public class Player {
     private final List<Card> hand;
     private final List<BlueCard> table;
     private boolean isInPrison;
-    private final Gameboard gameboard;
+    private final GameBoard gameBoard;
 
-    public Player(String name, Gameboard gameboard) {
+    public Player(String name, GameBoard gameBoard) {
         this.name = name;
         isInPrison = false;
         hp = 4;
         hand = new ArrayList<>();
         table = new ArrayList<>();
-        this.gameboard = gameboard;
+        this.gameBoard = gameBoard;
     }
 
     public String getName() {
         return this.name;
     }
     public int getHp() {
-        return this.hp < 0 ? 0 : this.hp;
+        return Math.max(this.hp, 0);
     }
     public void incrementHp(int num){
         this.hp = this.hp + num;
@@ -43,11 +43,14 @@ public class Player {
     public List<BlueCard> getTable(){
         return this.table;
     }
-    public Card getCardFromHand(int i) {
-        return this.hand.get(i);
-    }
     public BlueCard getCardFromTable(int i) {
         return this.table.get(i);
+    }
+    public void removeCardFromTable(BlueCard card) {
+        this.table.remove(card);
+    }
+    public Card getCardFromHand(int i) {
+        return this.hand.get(i);
     }
     public void removeCardFromHand(int i) {
         this.hand.remove(i);
@@ -146,7 +149,7 @@ public class Player {
         for (Card card : this.hand) {
             if (card instanceof Bang){
                 this.hand.remove(card);
-                gameboard.addToDiscardPile(card);
+                gameBoard.addToDiscardPile(card);
                 break;
 
             }
@@ -156,16 +159,14 @@ public class Player {
         for (Card card : this.hand) {
             if (card instanceof Missed) {
                 this.hand.remove(card);
-                gameboard.addToDiscardPile(card);
+                gameBoard.addToDiscardPile(card);
                 break;
 
             }
         }
     }
 
-    public void removeCardFromTable(BlueCard card) {
-        this.table.remove(card);
-    }
+
     public void checkTable(int currentPlayerIndex, List<Player> playerList){
         for(BlueCard card : getTable()){
             if(card instanceof Dynamite && card.didExecute(playerList, card,currentPlayerIndex)){
@@ -208,16 +209,16 @@ public class Player {
 
     public void drawCards(int num){
         for(int i = 0;i < num;i++){
-            if(gameboard.getDeck().size() == 0 && gameboard.getDiscardPile().size()==0){
+            if(gameBoard.getDeck().size() == 0 && gameBoard.getDiscardPile().size()==0){
                 System.out.println(i == 0 ? "There are no card to be drawn, sorry!" : "You could olny draw "+i+" card, there are no more left!");
                 return;
             }
-            this.hand.add(gameboard.drawCard());
+            this.hand.add(gameBoard.drawCard());
         }
     }
 
     public void addToDiscardPile(Card card){
-        gameboard.addToDiscardPile(card);
+        gameBoard.addToDiscardPile(card);
     }
 
     private boolean gameNotInProgress(List<Player> playerList){
@@ -246,7 +247,7 @@ public class Player {
             while(indexOfDiscardCard < 0 || indexOfDiscardCard > this.hand.size()-1) {
                 indexOfDiscardCard = ZKlavesnice.readInt("Pick which card to dicard") - 1;
             }
-            gameboard.addToDiscardPile(getCardFromHand(indexOfDiscardCard));
+            gameBoard.addToDiscardPile(getCardFromHand(indexOfDiscardCard));
             removeCardFromHand(indexOfDiscardCard);
         }
     }

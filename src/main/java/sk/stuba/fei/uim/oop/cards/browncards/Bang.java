@@ -18,16 +18,18 @@ public class Bang extends BrownCard {
         Card playedCard = currentPlayer.getCardFromHand(indexOfPlayedCard);
         removeAndDiscard(currentPlayer,playedCard);
         System.out.print("Pick which player to attack, players: \n");
+        handleDefense(attackedPlayer,players,indexOfCurrentPlayer);
+    }
 
+    private void handleDefense(Player attackedPlayer, List<Player> players, int indexOfCurrentPlayer){
         if(attackedPlayer.defendWithBarrel(players, indexOfCurrentPlayer)){
             return;
         }
         if(attackedPlayer.defendWithMissed()){
             return;
         }
-        else {
-            attackedPlayer.decrementHp(1);
-            System.out.println("\u001B[31mThe player " + attackedPlayer.getName()+ " got hit by Bang, he now has \u001B[32m"+attackedPlayer.getHp()+"HP\u001B[0m");
-        }
+        attackedPlayer.decrementHp(1);
+        System.out.println("\u001B[31mThe player " + attackedPlayer.getName()+ " got hit by Bang, he now has \u001B[32m"+attackedPlayer.getHp()+"HP\u001B[0m");
+
     }
 }
