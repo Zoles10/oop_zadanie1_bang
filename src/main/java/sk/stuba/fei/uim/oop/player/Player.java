@@ -10,15 +10,16 @@ import java.util.List;
 
 public class Player {
     private final String name;
+    private final int index;
     private int hp;
     private final List<Card> hand;
     private final List<BlueCard> table;
     private boolean isInPrison;
     private final GameBoard gameBoard;
-
-    public Player(String name, GameBoard gameBoard) {
+    public Player(String name,int index ,GameBoard gameBoard) {
         this.name = name;
         isInPrison = false;
+        this.index = index;
         hp = 4;
         hand = new ArrayList<>();
         table = new ArrayList<>();
@@ -30,6 +31,9 @@ public class Player {
     }
     public int getHp() {
         return Math.max(this.hp, 0);
+    }
+    public int getIndex(){
+        return this.index;
     }
     public void incrementHp(int num){
         this.hp = this.hp + num;
@@ -73,11 +77,9 @@ public class Player {
         printHand();
         printTable();
     }
-
     public void printHp(){
         System.out.println("\u001B[32m\n---\u001B[1m" + this.name + "---"+this.getHp()+" HP \u001B[0m");
     }
-
     public void printHand(){
         System.out.println("\u001B[35mHand: ");
         if(this.hand.size()>0) {
@@ -90,7 +92,6 @@ public class Player {
             System.out.println("---Empty---\n\u001B[0m");
         }
     }
-
     public void printTable(){
         System.out.println("\u001B[34mTable: ");
         if (this.table.size() > 0) {
@@ -104,47 +105,6 @@ public class Player {
         }
     }
 
-
-    public boolean hasMissedOnHand() {
-        for (Card card : this.hand) {
-            if (card instanceof Missed) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean hasBangOnHand() {
-        for (Card card : this.hand) {
-            if (card instanceof Bang) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean hasPrisonOnTable() {
-        for (Card card : this.table) {
-            if (card instanceof Prison) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean hasDynamiteOnTable() {
-        for (Card card : this.table) {
-            if (card instanceof Dynamite) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean hasBarrelOnTable() {
-        for (Card card : this.table) {
-            if (card instanceof Barrel) {
-                return true;
-            }
-        }
-        return false;
-    }
     public void removeBangFromHand() {
         for (Card card : this.hand) {
             if (card instanceof Bang){
@@ -166,22 +126,21 @@ public class Player {
         }
     }
 
-
-    public void checkTable(int currentPlayerIndex, List<Player> playerList){
+    public void checkTable(List<Player> playerList){
         for(BlueCard card : getTable()){
-            if(card instanceof Dynamite && card.didExecute(playerList,currentPlayerIndex)){
+            if(card instanceof Dynamite && card.didExecute(playerList, this)){
                 this.table.remove(card);
                 break;
             }
         }
         for(BlueCard card : getTable()){
-            if(card instanceof Prison && card.didExecute(playerList,currentPlayerIndex)){
+            if(card instanceof Prison && card.didExecute(playerList, this)){
                 this.table.remove(card);
                 break;
             }
         }
     }
-    public boolean playCards(List<Player> playerList,int currentPlayerIndex){
+    public boolean playCards(List<Player> playerList){
         while(getHand().size() > 0){
             if(gameNotInProgress(playerList)){
                 return false;
@@ -194,7 +153,7 @@ public class Player {
                 cardPlayedIndex = ZKlavesnice.readInt("Pick which card to play (Enter 0 to stop): ") - 1;
             }
             if (cardPlayedIndex != -1) {
-                getCardFromHand(cardPlayedIndex).play(playerList, currentPlayerIndex);
+                getCardFromHand(cardPlayedIndex).play(playerList, this);
                 if(gameNotInProgress(playerList)){
                     return false;
                 }
@@ -256,23 +215,23 @@ public class Player {
         return this.hp < 1;
     }
 
-    public boolean defendWithBarrel(List<Player> players, int indexOfCurrentPlayer){
-        if(this.hasBarrelOnTable()){
-            for(BlueCard card : this.getTable()) {
-                if (card instanceof Barrel && card.didExecute(players,indexOfCurrentPlayer)) {
-                    System.out.print("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
-                    return true;
-                }
+    public boolean defendWithBarrel(List<Player> players){
+        for(BlueCard card : this.getTable()) {
+            if (card instanceof Barrel && card.didExecute(players, this)) {
+                System.out.print("\u001B[33mThe player succesfully blocked your attack with a Barrel!\u001B[0m");
+                return true;
             }
         }
         return false;
     }
 
     public boolean defendWithMissed(){
-        if(this.hasMissedOnHand()){
-            this.removeMissedFromHand();
-            System.out.println("\u001B[33mThe player used Missed!\u001B[0m");
-            return true;
+        for (Card card : this.hand) {
+            if (card instanceof Missed) {
+                this.removeMissedFromHand();
+                System.out.println("\u001B[33mThe player used Missed!\u001B[0m");
+                return true;
+            }
         }
         return false;
     }

@@ -9,8 +9,7 @@ public class Beer extends BrownCard {
     }
 
     @Override
-    public void play(List<Player> players, int indexOfCurrentPlayer){
-        Player currentPlayer = players.get(indexOfCurrentPlayer);
+    public void play(List<Player> players, Player currentPlayer){
         currentPlayer.incrementHp(1);
         System.out.println("\u001B[32mYou played Beer and healed one HP, you now have "+currentPlayer.getHp()+"\u001B[0m");
         removeAndDiscard(currentPlayer,this);

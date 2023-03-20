@@ -24,36 +24,31 @@ public class Game {
 
     public void playGame(){
         setUpPlayers();
-        System.out.println("\u001B[1m\n-------LET THE GAME BEGIN!-------\u001B[1m");
+        System.out.println("\u001B[1m\n--------------LET THE GAME BEGIN!--------------\u001B[1m");
         while (gameInProgress) {
-            int currentPlayerIndex = 0;
             for(Player currentPlayer : playerList){
                 if(currentPlayer.isDead()){
-                    currentPlayerIndex++;
                     continue;
                 }
-                System.out.println("\u001B[36m--------------PLAYER "+(currentPlayerIndex+1) + " TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
-                currentPlayer.checkTable(currentPlayerIndex, playerList);
+                System.out.println("\u001B[36m--------------PLAYER "+(currentPlayer.getIndex()+1) + " TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
+                currentPlayer.checkTable(playerList);
                 if(currentPlayer.isDead()){
-                    currentPlayerIndex++;
                     continue;
                 }
                 if(currentPlayer.getIsInPrison()){
                     currentPlayer.status();
-                    currentPlayerIndex++;
                     currentPlayer.setIsInPrison(false);
                     continue;
                 }
                 currentPlayer.drawCards(2);
                 currentPlayer.status();
-                gameInProgress = currentPlayer.playCards(playerList,currentPlayerIndex);
+                gameInProgress = currentPlayer.playCards(playerList);
                 if(!gameInProgress){
                     break;
                 }
                 currentPlayer.discardCards();
                 currentPlayer.status();
                 checkIfAPlayerDied();
-                currentPlayerIndex++;
             }
         }
     }
@@ -64,7 +59,7 @@ public class Game {
         }
         for (int i = 0; i < playerCount; i++) {
             String name = ZKlavesnice.readString("Enter name of Player: " + (i + 1) );
-            playerList.add(new Player(name,gameBoard));
+            playerList.add(new Player(name,i,gameBoard));
             playerList.get(i).drawCards(4);
         }
     }

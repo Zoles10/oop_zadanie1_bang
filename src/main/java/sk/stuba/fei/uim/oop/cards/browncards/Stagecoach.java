@@ -9,8 +9,7 @@ public class Stagecoach extends BrownCard {
     }
 
     @Override
-    public void play(List<Player> players, int indexOfCurrentPlayer){
-        Player currentPlayer = players.get(indexOfCurrentPlayer);
+    public void play(List<Player> players, Player currentPlayer){
         currentPlayer.drawCards(2);
         removeAndDiscard(currentPlayer,this);
     }

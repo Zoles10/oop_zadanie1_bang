@@ -16,7 +16,6 @@ public class GameBoard {
         this.discardPile = new ArrayList<>();
         this.deck = new ArrayList<>();
         createDeck();
-
     }
 
     public List<Card> getDeck(){
@@ -26,6 +25,7 @@ public class GameBoard {
     public List<Card> getDiscardPile(){
         return this.discardPile;
     }
+
     public void createDeck() {
         for (int i = 0; i < 30; i++) {
             deck.add(new Bang());
@@ -62,7 +62,6 @@ public class GameBoard {
         return card;
     }
 
-
     public void refillDeck(){
         List<Card> temp = new ArrayList<>(deck);
         deck.clear();
@@ -73,11 +72,7 @@ public class GameBoard {
         System.out.println("Refilling cards from discard pile!");
     }
 
-
-
     public void addToDiscardPile(Card card){
         this.discardPile.add(card);
     }
-
-
 }

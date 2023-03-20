@@ -11,16 +11,15 @@ public class Bang extends BrownCard {
     }
 
     @Override
-    public void play(List<Player> players, int indexOfCurrentPlayer){
-        Player currentPlayer = players.get(indexOfCurrentPlayer);
-        Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
+    public void play(List<Player> players, Player currentPlayer){
+        Player attackedPlayer = choosePlayerToAttack(players,currentPlayer);
         removeAndDiscard(currentPlayer,this);
         System.out.print("Pick which player to attack, players: \n");
-        handleDefense(attackedPlayer,players,indexOfCurrentPlayer);
+        handleDefense(attackedPlayer,players);
     }
 
-    private void handleDefense(Player attackedPlayer, List<Player> players, int indexOfCurrentPlayer){
-        if(attackedPlayer.defendWithBarrel(players, indexOfCurrentPlayer)){
+    private void handleDefense(Player attackedPlayer, List<Player> players){
+        if(attackedPlayer.defendWithBarrel(players)){
             return;
         }
         if(attackedPlayer.defendWithMissed()){

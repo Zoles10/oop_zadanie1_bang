@@ -10,6 +10,6 @@ public abstract class BlueCard extends Card {
         super(meno);
     }
 
-    public abstract boolean didExecute(List<Player> playerList,int indexOfCurrentPlayer);
+    public abstract boolean didExecute(List<Player> playerList,Player currentPlayer);
 
 }

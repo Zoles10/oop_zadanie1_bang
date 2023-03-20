@@ -1,4 +1,5 @@
 package sk.stuba.fei.uim.oop.cards.bluecards;
+import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.util.List;
@@ -12,13 +13,14 @@ public class Prison extends BlueCard {
     }
 
     @Override
-    public void play(List<Player> players, int indexOfCurrentPlayer) {
-        Player currentPlayer = players.get(indexOfCurrentPlayer);
+    public void play(List<Player> players, Player currentPlayer) {
         System.out.print("Pick which player to imprison, players: \n");
-        Player attackedPlayer = choosePlayerToAttack(players,indexOfCurrentPlayer);
-        if(attackedPlayer.hasPrisonOnTable()){
-            System.out.println("Cannot place Prison on the players table, he is already imprisoned!");
-            return;
+        Player attackedPlayer = choosePlayerToAttack(players,currentPlayer);
+        for (Card card : attackedPlayer.getTable()) {
+            if (card instanceof Prison) {
+                System.out.println("\u001B[31mCannot place Prison on the players table, he is already imprisoned!\u001B[0m");
+                return;
+            }
         }
         attackedPlayer.setIsInPrison(true);
         attackedPlayer.addToTable(this);
@@ -26,13 +28,11 @@ public class Prison extends BlueCard {
     }
 
     @Override
-    public boolean didExecute(List<Player> playerList,int indexOfCurrentPlayer){
+    public boolean didExecute(List<Player> playerList,Player currentPlayer){
         int chance = rand.nextInt(4);
-        Player currentPlayer = playerList.get(indexOfCurrentPlayer);
         if(chance == 0){
             currentPlayer.setIsInPrison(false);
             System.out.println("\u001B[33mYou escape prison!\u001B[0m");
-
         }
         else {
             currentPlayer.setIsInPrison(true);
