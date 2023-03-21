@@ -62,6 +62,10 @@ public class GameBoard {
         return card;
     }
 
+    public  void removeFromDeck(Card card){
+        this.deck.remove(card);
+    }
+
     public void refillDeck(){
         List<Card> temp = new ArrayList<>(deck);
         deck.clear();

@@ -31,6 +31,7 @@ public class Game {
                     continue;
                 }
                 System.out.println("\u001B[36m--------------PLAYER "+(currentPlayer.getIndex()+1) + " TURN: "+currentPlayer.getName()+"---------------- \u001B[0m");
+
                 currentPlayer.checkTable(playerList);
                 if(currentPlayer.isDead()){
                     continue;
@@ -41,6 +42,8 @@ public class Game {
                     continue;
                 }
                 currentPlayer.drawCards(2);
+                System.out.println("Cards in deck: "+gameBoard.getDeck().size());
+                System.out.println("Cards in discardPile: "+gameBoard.getDiscardPile().size());
                 currentPlayer.status();
                 gameInProgress = currentPlayer.playCards(playerList);
                 if(!gameInProgress){

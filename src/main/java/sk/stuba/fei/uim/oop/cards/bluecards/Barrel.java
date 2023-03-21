@@ -24,7 +24,6 @@ public class Barrel extends BlueCard {
         }
         currentPlayer.addToTable(this);
         currentPlayer.removeCardFromHand(this);
-
     }
 
     @Override

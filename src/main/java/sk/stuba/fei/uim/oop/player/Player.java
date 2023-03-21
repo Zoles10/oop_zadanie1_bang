@@ -133,6 +133,9 @@ public class Player {
                 break;
             }
         }
+        if(this.hp < 1){
+            return;
+        }
         for(BlueCard card : getTable()){
             if(card instanceof Prison && card.didExecute(playerList, this)){
                 this.table.remove(card);
@@ -148,6 +151,8 @@ public class Player {
             if(this.hp < 1){
                 return true;
             }
+            System.out.println("Cards in deck: "+gameBoard.getDeck().size());
+            System.out.println("Cards in discardPile: "+gameBoard.getDiscardPile().size());
             int cardPlayedIndex = -2;
             while(cardPlayedIndex < -1 || cardPlayedIndex > hand.size() - 1 ) {
                 cardPlayedIndex = ZKlavesnice.readInt("Pick which card to play (Enter 0 to stop): ") - 1;
@@ -162,6 +167,7 @@ public class Player {
                 break;
             }
             status();
+
         }
         return true;
     }
@@ -172,7 +178,9 @@ public class Player {
                 System.out.println(i == 0 ? "There are no card to be drawn, sorry!" : "You could olny draw "+i+" card, there are no more left!");
                 return;
             }
-            this.hand.add(gameBoard.drawCard());
+            Card drawnCard = gameBoard.drawCard();
+            this.hand.add(drawnCard);
+            gameBoard.removeFromDeck(drawnCard);
         }
     }
 
