@@ -11,5 +11,4 @@ public abstract class BlueCard extends Card {
     }
 
     public abstract boolean didExecute(List<Player> playerList,Player currentPlayer);
-
 }

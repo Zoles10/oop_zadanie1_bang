@@ -2,7 +2,6 @@ package sk.stuba.fei.uim.oop.player;
 import sk.stuba.fei.uim.oop.gameboard.GameBoard;
 import sk.stuba.fei.uim.oop.cards.*;
 import sk.stuba.fei.uim.oop.cards.bluecards.*;
-import sk.stuba.fei.uim.oop.cards.browncards.Bang;
 import sk.stuba.fei.uim.oop.cards.browncards.Missed;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 import java.util.ArrayList;
@@ -105,27 +104,6 @@ public class Player {
         }
     }
 
-    public void removeBangFromHand() {
-        for (Card card : this.hand) {
-            if (card instanceof Bang){
-                this.hand.remove(card);
-                gameBoard.addToDiscardPile(card);
-                break;
-
-            }
-        }
-    }
-    public void removeMissedFromHand() {
-        for (Card card : this.hand) {
-            if (card instanceof Missed) {
-                this.hand.remove(card);
-                gameBoard.addToDiscardPile(card);
-                break;
-
-            }
-        }
-    }
-
     public void checkTable(List<Player> playerList){
         for(BlueCard card : getTable()){
             if(card instanceof Dynamite && card.didExecute(playerList, this)){
@@ -151,8 +129,7 @@ public class Player {
             if(this.hp < 1){
                 return true;
             }
-            System.out.println("Cards in deck: "+gameBoard.getDeck().size());
-            System.out.println("Cards in discardPile: "+gameBoard.getDiscardPile().size());
+
             int cardPlayedIndex = -2;
             while(cardPlayedIndex < -1 || cardPlayedIndex > hand.size() - 1 ) {
                 cardPlayedIndex = ZKlavesnice.readInt("Pick which card to play (Enter 0 to stop): ") - 1;
@@ -166,6 +143,7 @@ public class Player {
             else{
                 break;
             }
+            gameBoard.status();
             status();
 
         }
@@ -236,7 +214,8 @@ public class Player {
     public boolean defendWithMissed(){
         for (Card card : this.hand) {
             if (card instanceof Missed) {
-                this.removeMissedFromHand();
+                this.removeCardFromHand(card);
+                this.addToDiscardPile(card);
                 System.out.println("\u001B[33mThe player used Missed!\u001B[0m");
                 return true;
             }

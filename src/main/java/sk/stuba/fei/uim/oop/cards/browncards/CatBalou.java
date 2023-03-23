@@ -54,5 +54,7 @@ public class CatBalou extends BrownCard {
                 System.out.println("\n\u001B[31mPlayer has no cards on table!\u001B[0m");
             }
         }
+
+
     }
 }

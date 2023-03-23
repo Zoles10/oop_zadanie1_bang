@@ -66,7 +66,7 @@ public class GameBoard {
         this.deck.remove(card);
     }
 
-    public void refillDeck(){
+    private void refillDeck(){
         List<Card> temp = new ArrayList<>(deck);
         deck.clear();
         deck.addAll(discardPile);
@@ -78,5 +78,10 @@ public class GameBoard {
 
     public void addToDiscardPile(Card card){
         this.discardPile.add(card);
+    }
+
+    public void status(){
+        System.out.println("\nCards in deck: "+this.getDeck().size());
+        System.out.println("Cards in discardPile: "+this.getDiscardPile().size());
     }
 }

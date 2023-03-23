@@ -26,7 +26,8 @@ public class Indians extends BrownCard {
     private boolean removedBang(Player attackedPlayer){
         for (Card card : attackedPlayer.getHand()) {
             if (card instanceof Bang) {
-                attackedPlayer.removeBangFromHand();
+                attackedPlayer.removeCardFromHand(card);
+                attackedPlayer.addToDiscardPile(card);
                 System.out.println("\u001B[33mThe enemy player "+attackedPlayer.getName()+" blocked the attack and used Bang!\u001B[0m");
                 return true;
             }

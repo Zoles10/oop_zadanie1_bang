@@ -42,8 +42,8 @@ public class Game {
                     continue;
                 }
                 currentPlayer.drawCards(2);
-                System.out.println("Cards in deck: "+gameBoard.getDeck().size());
-                System.out.println("Cards in discardPile: "+gameBoard.getDiscardPile().size());
+                gameBoard.status();
+                printPlayers();
                 currentPlayer.status();
                 gameInProgress = currentPlayer.playCards(playerList);
                 if(!gameInProgress){
@@ -67,7 +67,7 @@ public class Game {
         }
     }
 
-    public void checkIfAPlayerDied(){
+    private void checkIfAPlayerDied(){
         for(Player player : this.playerList){
             if(player.isDead()){
                 removePlayerCards(player);
@@ -75,7 +75,7 @@ public class Game {
         }
     }
 
-    public void removePlayerCards(Player currentPlayer){
+    private void removePlayerCards(Player currentPlayer){
         Iterator<Card> handIterator = currentPlayer.getHand().iterator();
         while(handIterator.hasNext()) {
             Card card = handIterator.next();
@@ -88,6 +88,18 @@ public class Game {
             Card card = tableIterator.next();
             currentPlayer.addToDiscardPile(card);
             tableIterator.remove();
+        }
+    }
+
+    private void printPlayers(){
+        System.out.println("\nPlayers: ");
+        for(Player player: playerList){
+            if(player.isDead()){
+                System.out.println("\u001B[30m[Player "+ (player.getIndex()+1)+"] "+player.getName()+" is DEAD!\u001B[0m");
+            }
+            else {
+                System.out.println("\u001B[34m[Player " + (player.getIndex() + 1) + "] " + player.getName() + " \u001B[32m" + player.getHp() + " HP\u001B[0m");
+            }
         }
     }
 }
