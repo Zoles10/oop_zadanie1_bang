@@ -50,7 +50,6 @@ public class Game {
                     break;
                 }
                 currentPlayer.discardCards();
-                currentPlayer.status();
                 checkIfAPlayerDied();
             }
         }
