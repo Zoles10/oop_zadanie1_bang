@@ -12,17 +12,17 @@ public class GameBoard {
     private final List<Card> deck;
     private final List<Card> discardPile;
 
-    public GameBoard(){
+    public GameBoard() {
         this.discardPile = new ArrayList<>();
         this.deck = new ArrayList<>();
         createDeck();
     }
 
-    public List<Card> getDeck(){
+    public List<Card> getDeck() {
         return this.deck;
     }
 
-    public List<Card> getDiscardPile(){
+    public List<Card> getDiscardPile() {
         return this.discardPile;
     }
 
@@ -53,20 +53,20 @@ public class GameBoard {
         Collections.shuffle(deck);
     }
 
-    public Card drawCard(){
-        if(deck.size()==0 && discardPile.size()!=0){
+    public Card drawCard() {
+        if (deck.size() == 0 && discardPile.size() != 0) {
             refillDeck();
         }
-        Card card  = deck.get(0);
+        Card card = deck.get(0);
         deck.remove(card);
         return card;
     }
 
-    public  void removeFromDeck(Card card){
+    public void removeFromDeck(Card card) {
         this.deck.remove(card);
     }
 
-    private void refillDeck(){
+    private void refillDeck() {
         List<Card> temp = new ArrayList<>(deck);
         deck.clear();
         deck.addAll(discardPile);
@@ -76,12 +76,12 @@ public class GameBoard {
         System.out.println("Refilling cards from discard pile!");
     }
 
-    public void addToDiscardPile(Card card){
+    public void addToDiscardPile(Card card) {
         this.discardPile.add(card);
     }
 
-    public void status(){
-        System.out.println("\nCards in deck: "+this.getDeck().size());
-        System.out.println("Cards in discardPile: "+this.getDiscardPile().size());
+    public void status() {
+        System.out.println("\nCards in deck: " + this.getDeck().size());
+        System.out.println("Cards in discardPile: " + this.getDiscardPile().size());
     }
 }

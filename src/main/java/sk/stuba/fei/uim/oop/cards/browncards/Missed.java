@@ -1,4 +1,5 @@
 package sk.stuba.fei.uim.oop.cards.browncards;
+
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.util.List;

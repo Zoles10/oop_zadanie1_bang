@@ -14,20 +14,20 @@ abstract public class Card {
 
     public abstract void play(List<Player> players, Player currentPlayer);
 
-    protected Player choosePlayerToAttack(List<Player> players,Player currentPlayer ){
-        for(int playerIndex = 0; playerIndex < players.size(); playerIndex++){
-            if(playerIndex != currentPlayer.getIndex() && !players.get(playerIndex).isDead()) {
-                System.out.println((playerIndex + 1)+". " + players.get(playerIndex).getName()+"");
+    protected Player choosePlayerToAttack(List<Player> players, Player currentPlayer) {
+        for (int playerIndex = 0; playerIndex < players.size(); playerIndex++) {
+            if (playerIndex != currentPlayer.getIndex() && !players.get(playerIndex).isDead()) {
+                System.out.println((playerIndex + 1) + ". " + players.get(playerIndex).getName() + "");
             }
         }
         int attackedPlayerIndex = -1;
-        while(attackedPlayerIndex < 0 || attackedPlayerIndex > players.size() -1 || attackedPlayerIndex == currentPlayer.getIndex() || players.get(attackedPlayerIndex).isDead() ) {
+        while (attackedPlayerIndex < 0 || attackedPlayerIndex > players.size() - 1 || attackedPlayerIndex == currentPlayer.getIndex() || players.get(attackedPlayerIndex).isDead()) {
             attackedPlayerIndex = ZKlavesnice.readInt("Pick a player: ") - 1;
         }
         return players.get(attackedPlayerIndex);
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 }
