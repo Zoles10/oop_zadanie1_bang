@@ -23,7 +23,7 @@ public class Game {
         playGame();
     }
 
-    public void playGame() {
+    private void playGame() {
         setUpPlayers();
         System.out.println("\u001B[1m\n--------------LET THE GAME BEGIN!--------------\u001B[1m");
         while (gameInProgress) {
@@ -56,7 +56,7 @@ public class Game {
         }
     }
 
-    public void setUpPlayers() {
+    private void setUpPlayers() {
         while (playerCount < 2 || playerCount > 4) {
             playerCount = ZKlavesnice.readInt("Enter number of player (2-4): ");
         }

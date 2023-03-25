@@ -15,9 +15,9 @@ abstract public class Card {
     public abstract void play(List<Player> players, Player currentPlayer);
 
     protected Player choosePlayerToAttack(List<Player> players, Player currentPlayer) {
-        for (int playerIndex = 0; playerIndex < players.size(); playerIndex++) {
-            if (playerIndex != currentPlayer.getIndex() && !players.get(playerIndex).isDead()) {
-                System.out.println((playerIndex + 1) + ". " + players.get(playerIndex).getName() + "");
+        for(Player player : players){
+            if(!player.equals(currentPlayer) && !player.isDead()){
+                System.out.println((player.getIndex() + 1) + ". " + player.getName());
             }
         }
         int attackedPlayerIndex = -1;

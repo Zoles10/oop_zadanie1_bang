@@ -26,7 +26,7 @@ public class GameBoard {
         return this.discardPile;
     }
 
-    public void createDeck() {
+    private void createDeck() {
         for (int i = 0; i < 30; i++) {
             deck.add(new Bang());
         }

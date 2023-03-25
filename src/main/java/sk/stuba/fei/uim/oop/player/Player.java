@@ -88,17 +88,21 @@ public class Player {
         return this.isInPrison;
     }
 
+    public void addToDiscardPile(Card card) {
+        gameBoard.addToDiscardPile(card);
+    }
+
     public void status() {
         printHp();
         printHand();
         printTable();
     }
 
-    public void printHp() {
+    private void printHp() {
         System.out.println("\u001B[32m\n---\u001B[1m" + this.name + "---" + this.getHp() + " HP \u001B[0m");
     }
 
-    public void printHand() {
+    private void printHand() {
         System.out.println("\u001B[35mHand: ");
         if (this.hand.size() > 0) {
             for (int i = 0; i < hand.size(); i++) {
@@ -110,7 +114,7 @@ public class Player {
         }
     }
 
-    public void printTable() {
+    private void printTable() {
         System.out.println("\u001B[34mTable: ");
         if (this.table.size() > 0) {
 
@@ -181,9 +185,7 @@ public class Player {
         }
     }
 
-    public void addToDiscardPile(Card card) {
-        gameBoard.addToDiscardPile(card);
-    }
+
 
     private boolean gameNotInProgress(List<Player> playerList) {
         int playersAlive = 0;
