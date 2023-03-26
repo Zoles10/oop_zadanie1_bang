@@ -14,7 +14,6 @@ public class Bang extends BrownCard {
     public void play(List<Player> players, Player currentPlayer) {
         Player attackedPlayer = choosePlayerToAttack(players, currentPlayer);
         removeAndDiscard(currentPlayer, this);
-        System.out.print("Pick which player to attack, players: \n");
         handleDefense(attackedPlayer, players);
     }
 
@@ -26,6 +25,10 @@ public class Bang extends BrownCard {
             return;
         }
         attackedPlayer.decrementHp(1);
+        if(attackedPlayer.isDead()){
+            System.out.println("\u001B[31mThe player " + attackedPlayer.getName() + " DIED!\u001B[0m");
+            return;
+        }
         System.out.println("\u001B[31mThe player " + attackedPlayer.getName() + " got hit by Bang, he now has \u001B[32m" + attackedPlayer.getHp() + "HP\u001B[0m");
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Dynamite extends BlueCard {
-    Random rand;
+    private final Random rand;
 
     public Dynamite() {
         super("Dynamite");

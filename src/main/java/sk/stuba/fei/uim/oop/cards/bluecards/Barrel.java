@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Barrel extends BlueCard {
 
-    Random rand;
+    private final Random rand;
 
     public Barrel() {
         super("Barrel");

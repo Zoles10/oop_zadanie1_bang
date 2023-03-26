@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.List;
 
 public class CatBalou extends BrownCard {
-    Random rand;
+    private final Random rand;
 
     public CatBalou() {
         super("CatBalou");
