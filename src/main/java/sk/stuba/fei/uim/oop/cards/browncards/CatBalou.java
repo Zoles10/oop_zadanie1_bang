@@ -4,7 +4,7 @@ import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.cards.bluecards.BlueCard;
 import sk.stuba.fei.uim.oop.cards.bluecards.Prison;
 import sk.stuba.fei.uim.oop.player.Player;
-import sk.stuba.fei.uim.oop.utility.KeyboardInput;
+import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
 import java.util.Random;
 
@@ -24,7 +24,7 @@ public class CatBalou extends BrownCard {
         Player attackedPlayer = choosePlayerToAttack(players, currentPlayer);
         int discardFlag = 0;
         while (discardFlag < 1 || discardFlag > 2) {
-            discardFlag = KeyboardInput.readInt("Choose where to discard from:\n1.Discard from hand\n2. Discard from table\nPick(1/2)");
+            discardFlag = ZKlavesnice.readInt("Choose where to discard from:\n1.Discard from hand\n2. Discard from table\nPick(1/2)");
         }
         int randomIndex;
         if (discardFlag == 1) {
